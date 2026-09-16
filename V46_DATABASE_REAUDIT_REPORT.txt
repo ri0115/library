@@ -1,0 +1,22 @@
+V46 EXPANDED SOURCE-POPULATION AUDIT
+Date: 2026-09-16
+Database total: 626
+
+Explicit current/latest source batch: 23
+Matched to database: 23
+Unresolved candidates: 0
+Coverage of this batch: 100.0%
+
+Source basis:
+- Minds latest-edition listing (verified 2026-09-16)
+- Minds 2026-08-21 new bibliography notice
+- Minds 2026 current publication/news stream
+
+Important:
+- This percentage is ONLY for the explicitly enumerated batch above.
+- It is not a claim of nationwide completeness.
+- No unresolved item was auto-inserted.
+- Minds changed to application-based evaluation from FY2024, so Minds alone cannot define the national universe; society-source audit remains necessary.
+
+Unresolved:
+- none

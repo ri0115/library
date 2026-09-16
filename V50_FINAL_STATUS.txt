@@ -1,0 +1,12 @@
+V50 FINAL MAINTENANCE MASTER
+Records: 630
+Duplicate candidate groups reviewed: 2
+Exact duplicates removed: 0
+Patient/public records explicitly tagged: 4
+Professional/clinician/default records tagged: 626
+
+Static verification:
+- HTML duplicate element IDs checked
+- JavaScript syntax checked with node --check
+- Database record IDs unique
+- Existing CSV export, library-only mode and anatomy mode retained

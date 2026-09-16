@@ -1,0 +1,15 @@
+V45 SOURCE-POPULATION AUDIT
+Date: 2026-09-16
+Previous total: 626
+Recovered this pass: 0
+Current total: 626
+
+This pass changes audit management from ad-hoc domain sweeps to source-population matching.
+Current source batch: 8
+Already matched: 8
+Missing and recovered: 0
+Batch coverage after recovery: 100%
+
+Source basis: Minds current/latest listings and 2026 bibliography announcements.
+Important: 100% refers only to this explicitly enumerated source batch, NOT all Japanese guidelines.
+CSV export/full-screen catalogue/anatomy modes retained.

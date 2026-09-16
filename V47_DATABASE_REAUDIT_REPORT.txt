@@ -1,0 +1,23 @@
+V47 JAMAS / TOHO REVERSE AUDIT
+Date: 2026-09-16
+Previous database total: 626
+Recovered: 2
+Current database total: 628
+
+JAMAS/Toho explicit current sample: 10
+Already matched: 8
+Missing and recovered: 2
+Post-recovery batch coverage: 100%
+
+This pass begins Minds-external source auditing.
+JAMAS/Toho database states it is updated monthly and was updated 2026-09-01.
+Its download/search metadata includes guideline number, title, publication data, author/organization, abstract, URL, and classification.
+
+Recovered:
+- 患者さんのためのリンパ浮腫ガイドライン 2025年版
+- がん患者さんのための栄養治療ガイドライン 2025年版
+
+Important:
+- This is not yet a complete export of all JAMAS records.
+- Patient-facing guidelines are retained and labeled as such rather than mixed silently with clinician-facing CPGs.
+- National completeness is not claimed.

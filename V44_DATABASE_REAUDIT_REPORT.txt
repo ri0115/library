@@ -1,0 +1,32 @@
+V44 REMAINING-DOMAINS DATABASE RE-AUDIT
+Date: 2026-09-16
+Previous total: 620
+Recovered this pass: 6
+Current total: 626
+
+Batch lanes:
+- Pediatrics / neonatal care
+- Home care / nursing
+- Geriatrics
+- Psycho-oncology / cancer nutrition
+- Dentistry / oral care
+
+Primary source population:
+- Minds current/latest listings and current category pages.
+
+Recovered:
+- NICUに入院している新生児の痛みのケアガイドライン第3版（2025年）
+- エビデンスにもとづく 在宅ケア実践ガイドライン2025
+- 高齢者総合機能評価(CGA)に基づく診療・ケアガイドライン2024
+- がん患者診療のための栄養治療ガイドライン 2024年版 総論編
+- 歯髄保護の診療ガイドライン
+- 障害者歯科診療における行動調整ガイドライン2024
+
+Cross-check examples already present and therefore not duplicated:
+- Japanese Sepsis Guidelines 2024
+- Life-stage rehabilitation/nutrition/oral-care guideline
+- Skin cancer 2025 guideline family except previously recovered melanoma item
+- Current pediatric items such as tuberous-sclerosis epilepsy and pediatric gastric volvulus
+
+National re-audit remains in progress. Current total is not yet claimed exhaustive.
+CSV export/full-screen catalogue/anatomy modes retained.

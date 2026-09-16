@@ -1,0 +1,17 @@
+V48 JAMAS EXPANDED REVERSE AUDIT
+Date: 2026-09-16
+Previous total: 628
+Recovered: 1
+Current total: 629
+
+JAMAS current batch: 10
+Already matched: 9
+Missing/recovered: 1
+Post-recovery batch coverage: 100%
+
+This pass sampled current 2024-2025 records across GI, urology, radiology,
+psycho-oncology and oral oncology from the JAMAS/Toho database updated 2026-09-01.
+No English secondary-publication duplicates were intentionally added.
+
+Recovered:
+- 死後画像読影ガイドライン 2025年版

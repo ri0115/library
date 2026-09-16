@@ -1,0 +1,22 @@
+V50 MAINTENANCE MASTER
+Date: 2026-09-16
+
+STATUS
+- Broad historical backfill is closed.
+- Database enters maintenance mode.
+- Do not claim mathematically complete coverage of all Japanese guidelines.
+
+UPDATE ROUTINE
+1. Monthly: JAMAS/Toho latest-update check.
+2. Monthly: Minds latest-edition / new-bibliography check.
+3. Quarterly: major professional-society guideline pages spot-check.
+4. Add only verified new/current editions.
+5. Mark superseded editions explicitly rather than silently replacing provenance.
+6. Keep patient/public guides distinguishable from clinician/professional guidelines.
+7. Never force systemic diseases into an anatomical body region.
+
+QUALITY RULES
+- Avoid English secondary-publication duplicates.
+- Preserve official/Minds/publisher URLs separately.
+- Keep UNKNOWN where access/price is not verified.
+- Browser/device testing must be reported separately from static syntax checks.

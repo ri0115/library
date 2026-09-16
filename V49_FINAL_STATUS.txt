@@ -1,0 +1,21 @@
+V49 FINAL CLOSURE STATUS
+Date: 2026-09-16
+Database records: 630
+Final high-yield sample: 8
+Already matched: 7
+Recovered in closure pass: 1
+Exact normalized-title duplicate groups: 2
+
+Decision:
+The broad recovery phase is closed here. Further exhaustive crawling has diminishing returns.
+The database should now be maintained by periodic update monitoring rather than open-ended backfill.
+
+Scope caveat:
+This is a high-coverage Japanese guideline library, not a legally or mathematically guaranteed complete census.
+Minds is application-based from FY2024; JAMAS/Toho is broader and updated monthly, but its own inclusion criteria apply.
+
+Recommended maintenance:
+- Monthly: inspect JAMAS/Toho latest update.
+- Monthly: inspect Minds latest/new bibliography.
+- Quarterly: spot-check major society guideline pages.
+- Add only verified new/current editions; retire superseded editions explicitly.
