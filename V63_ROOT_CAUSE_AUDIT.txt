@@ -1,0 +1,79 @@
+V63 ROOT-CAUSE / STABILITY AUDIT
+Date: 2026-09-16
+
+Root causes identified before countermeasures
+
+1. Book detail return / browser instability
+- v62 locked the whole document by setting body.position=fixed and a negative top value.
+- Closing restored the page with window.scrollTo().
+- This forced full-page layout/scroll restoration on every open/close cycle and is especially fragile on mobile visual viewports.
+- A leftover resetAll() bug also referenced an undefined variable named "quick".
+
+Countermeasure
+- Removed fixed-body scroll locking and window.scrollTo restoration entirely.
+- Book detail is now a lightweight right-side sheet, max 480px / 86–88vw.
+- Added a separate backdrop; tapping it closes the sheet.
+- Drawer scroll is self-contained with overscroll containment.
+- Fixed the undefined "quick" reference.
+
+2. Overall sluggishness
+- v62 rebuilt up to all 630 cards on every render.
+- Free-text search rendered on every keystroke.
+- Search strings were reconstructed repeatedly.
+- Foreground PNG files totalled 5.31 MiB compressed.
+- Persistent will-change and filters added extra compositor/GPU work.
+
+Countermeasure
+- Progressive rendering: 80 cards at a time, with a "さらに表示" control.
+- Free-text search debounced by 120 ms.
+- Search/body/disease text is precomputed once.
+- CSV exports the complete filtered set, not just the first 80 rendered cards.
+- home_atlas -> WebP and anatomy_color -> lossless WebP.
+- Foreground transfer size reduced to 1.30 MiB.
+- Removed persistent will-change and anatomy sepia filter.
+- Shortened anatomy transform transition.
+
+3. Background disappearing during anatomy zoom
+- v62 used a separate .atlasPaper sibling layer for the parchment.
+- Above it, large opacity/transform layers were being composited and the anatomy image could scale to 3x.
+- That made the background dependent on a separate layer in the compositing stack.
+
+Countermeasure
+- Removed .atlasPaper entirely.
+- parchment_fixed.jpg is now painted directly by #atlas.
+- Anatomy transforms cannot move or remove the atlas background.
+
+Retained
+- 630 records
+- anatomy coordinate map
+- simple + advanced search
+- year / access free-paid filters
+- specialty color strip
+- enlarged REFERENCE links
+- one persistent detail return button
+- CSV export
+- internal GL codes hidden from browsing/detail UI
+
+Static checks
+- 630 records: PASS
+- unique DB IDs: PASS
+- duplicate HTML IDs absent: PASS
+- JS syntax: PASS
+- fixed-body lock removed: PASS
+- undefined quick bug removed: PASS
+- side sheet shade present: PASS
+- progressive render present: PASS
+- debounced search: PASS
+- precomputed search text: PASS
+- CSV exports full filtered result: PASS
+- background painted on atlas: PASS
+- atlasPaper removed: PASS
+- will-change removed: PASS
+- anatomy sepia filter removed: PASS
+- WebP home linked: PASS
+- WebP anatomy linked: PASS
+- advanced search retained: PASS
+- one detail back button: PASS
+- GL code not rendered in list: PASS
+- GL code not rendered in detail: PASS
+- specialty color retained: PASS
