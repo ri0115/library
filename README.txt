@@ -1,4 +1,4 @@
-Medical Guideline Library v13
-スマホ3ステップ導線版。
-PC版は従来の一覧性を維持し、スマホのみ人体→絞り込み→結果の段階UIに変更。
+Medical Guideline Library v14
+7領域ズーム＋INDEXポップアップ方式。
+細かい臓器直接タップをやめ、スマホで確実に操作できる大領域選択へ変更。
 必要ファイル一式をZIPに同梱。
