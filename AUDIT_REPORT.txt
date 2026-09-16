@@ -1,0 +1,43 @@
+Medical Guideline Library v10 — 分類監査
+収録レコード: 584
+診療科未分類: 0
+身体部位情報なし: 142
+疾患分類情報なし: 7
+
+診療科別件数（上位）:
+- GASTRO: 40
+- PEDI: 39
+- 皮膚科: 39
+- CARD: 24
+- OPHTH: 24
+- 泌尿器科: 22
+- ENT_GEN: 21
+- RESP: 19
+- REHABIL: 18
+- NEUROL: 17
+- INFECTIOUS: 16
+- PSYCH: 15
+- NEPH: 13
+- OB: 11
+- DENTISTRY: 11
+- GYN: 8
+- ORTHO_GEN: 8
+- RHEUM: 8
+- ENDO: 8
+- NEURO: 8
+- REPRO: 8
+- HEP: 7
+- ORAL_SURG: 6
+- MED_ONC: 6
+- INF: 6
+- DM: 6
+- ICU: 6
+- IVR: 5
+- HPB_SURG: 5
+- ENT: 5
+
+実装:
+- 原データは変更せず、検索用別名 searchAliases を追加
+- 頚椎/頸椎、膝関節/膝、手関節/手・手関節などの表記揺れを検索時に吸収
+- 診療科の代表的な表記揺れも表示側で統一
+- v9の人体・臓器・運動器・診療科・カテゴリ検索を維持
