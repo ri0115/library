@@ -1,0 +1,23 @@
+v17 一項目ずつ再構築・検証
+
+1. 前の臓器（例: 大腸）が残る
+→ 新しい7領域を押すたび structure/sub を必ず初期化。
+
+2. 手・下肢でカラーにならない
+→ 7領域すべて同じ openRoute() を通し、必ず atlas に reveal + zoom を付与。
+   これにより home_atlas は薄くなり anatomy_color が表示される。
+
+3. 胸部・腹部だけ挙動が違う
+→ 旧 focusArea / selectStructure / installOrganZones を廃止。
+   頭・首・胸部・肩〜手・腹部・骨盤・下肢を同一ロジックに統一。
+
+4. ポップアップが出ない
+→ 7領域タップから必ず indexPopup.open を付与。
+   スマホは position:fixed / z-index:1001、背景は1000。
+
+5. タップ競合
+→ 旧臓器ポリゴンDOMを削除。7領域のボタンだけにした。
+   肩〜手は左右の大きなボタン、胸部中央とは非重複。
+
+6. JS
+→ node --check で構文エラーなしを確認。

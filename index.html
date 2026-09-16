@@ -41,6 +41,32 @@ h2{font:16px Georgia,serif;letter-spacing:.06em;margin:10px 0}.subs{display:flex
  .atlas{min-height:54vh}.catalog{padding-top:4px}
  .resultTools{position:sticky;top:49px;z-index:20;background:rgba(238,224,190,.93);padding:6px 0}
 }
+
+/* v17 clean seven-route interaction */
+.routeMap{pointer-events:none!important}
+.routeZone{position:absolute;border:0;background:transparent;pointer-events:auto;z-index:8;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.routeZone:active{background:rgba(109,70,32,.12)}
+.rz-head{left:42%;top:7%;width:16%;height:12%}
+.rz-neck{left:43%;top:19%;width:14%;height:8%}
+.rz-chest{left:36%;top:27%;width:28%;height:16%}
+.rz-arm-l{left:8%;top:25%;width:28%;height:31%}
+.rz-arm-r{left:64%;top:25%;width:28%;height:31%}
+.rz-abdomen{left:37%;top:43%;width:26%;height:15%}
+.rz-pelvis{left:36%;top:58%;width:28%;height:12%}
+.rz-lower{left:31%;top:70%;width:38%;height:28%}
+.indexShade{display:none;position:absolute;inset:0;z-index:19;background:rgba(38,22,10,.22)}
+.indexShade.open{display:block}
+.indexPopup{display:none;position:absolute;z-index:20;left:5%;right:5%;bottom:4%;max-height:48%;overflow:auto;background:rgba(235,211,163,.97);border:1px solid var(--line);box-shadow:0 12px 35px rgba(35,19,8,.38);padding:13px}
+.indexPopup.open{display:block}
+.indexHead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;border-bottom:1px solid var(--line);padding-bottom:8px}
+.indexHead small{font:8px Georgia,serif;letter-spacing:.18em;opacity:.55}.indexHead h3{font:18px Georgia,serif;margin:2px 0 0}.indexHead button{border:0;background:none;font-size:25px;color:var(--ink)}
+.indexGroup{margin-top:10px}.indexGroup>div:first-child{font-size:9px;letter-spacing:.12em;opacity:.58;margin-bottom:5px}
+.indexChoices{display:flex;flex-wrap:wrap;gap:6px}.indexChoices button{border:1px solid var(--line);background:#ead09c;padding:7px 9px;font:11px inherit;color:var(--ink)}
+@media(max-width:760px){
+ .indexPopup{position:fixed;left:8px;right:8px;bottom:12px;max-height:54vh;z-index:1001}
+ .indexShade{position:fixed;z-index:1000}
+ .routeZone{min-width:44px;min-height:44px}
+}
 </style></head><body>
 <div class="uxbar"><div class="uxinner">
 <input id="quickSearch" placeholder="ガイドライン名・疾患・学会名を検索" oninput="syncQuickSearch(this.value)">
@@ -51,20 +77,21 @@ h2{font:16px Georgia,serif;letter-spacing:.06em;margin:10px 0}.subs{display:flex
 <main class="atlas" id="atlas">
 <img class="layer home" src="home_atlas.png" alt="古典人体図"><img class="layer anatomy" src="anatomy_color.png" alt="カラー解剖図">
 <div class="tag" id="tag">人体索引 — 部位をタップ</div><button class="catalogBtn" onclick="document.getElementById('q').focus()">蔵書検索</button>
-<div class="map" id="map">
-<!-- first-stage body locations -->
-<button class="zone" data-label="頭部" style="left:45%;top:10%;width:10%;height:10%" onclick="focusArea('head')"></button>
-<button class="zone" data-label="頸部" style="left:46%;top:20%;width:8%;height:7%" onclick="focusArea('neck')"></button>
-<button class="zone" data-label="胸部" style="left:42%;top:28%;width:16%;height:15%" onclick="focusArea('chest')"></button>
-<button class="zone" data-label="腹部" style="left:43%;top:43%;width:14%;height:15%" onclick="focusArea('abdomen')"></button>
-<button class="zone" data-label="骨盤" style="left:43%;top:58%;width:14%;height:10%" onclick="focusArea('pelvis')"></button>
-<button class="zone" data-label="左手" style="left:20%;top:43%;width:9%;height:11%" onclick="selectStructure('hand','手・手関節')"></button>
-<button class="zone" data-label="右手" style="left:71%;top:43%;width:9%;height:11%" onclick="selectStructure('hand','手・手関節')"></button>
-<button class="zone" data-label="左膝" style="left:43%;top:71%;width:6%;height:7%" onclick="selectStructure('knee','膝')"></button>
-<button class="zone" data-label="右膝" style="left:51%;top:71%;width:6%;height:7%" onclick="selectStructure('knee','膝')"></button>
-<button class="zone" data-label="左足" style="left:42%;top:90%;width:7%;height:7%" onclick="selectStructure('foot','足・足関節')"></button>
-<button class="zone" data-label="右足" style="left:51%;top:90%;width:7%;height:7%" onclick="selectStructure('foot','足・足関節')"></button>
-</div><button class="back" onclick="resetAtlas()">← 全身へ戻る</button></main>
+<div class="map routeMap" id="map">
+<button class="routeZone rz-head" data-region="head" aria-label="頭"></button>
+<button class="routeZone rz-neck" data-region="neck" aria-label="首"></button>
+<button class="routeZone rz-chest" data-region="chest" aria-label="胸部"></button>
+<button class="routeZone rz-arm-l" data-region="upper" aria-label="肩から手 左"></button>
+<button class="routeZone rz-arm-r" data-region="upper" aria-label="肩から手 右"></button>
+<button class="routeZone rz-abdomen" data-region="abdomen" aria-label="腹部"></button>
+<button class="routeZone rz-pelvis" data-region="pelvis" aria-label="骨盤まわり"></button>
+<button class="routeZone rz-lower" data-region="lower" aria-label="下肢"></button>
+</div>
+<div class="indexShade" id="indexShade" onclick="closeIndex()"></div>
+<section class="indexPopup" id="indexPopup" aria-hidden="true">
+ <div class="indexHead"><div><small>ANATOMICAL INDEX</small><h3 id="indexTitle">部位を選択</h3></div><button onclick="closeIndex()" aria-label="閉じる">×</button></div>
+ <div id="indexBody"></div>
+</section><button class="back" onclick="resetAtlas()">← 全身へ戻る</button></main>
 <aside class="catalog"><div class="brand">MEDICAL GUIDELINE LIBRARY<br><small>診療ガイドライン図書館</small></div>
 <div class="search"><input id="q" placeholder="疾患名・学会名・ガイドライン名…" oninput="render()"><button>検索</button></div><div class="crumb" id="crumb">全身 ＞ 全ガイドライン</div>
 <div class="filtersPanel" id="filtersPanel"><section class="routeSearch"><div class="specialtyHead">探し方</div><div class="specialtyChips">
@@ -78,7 +105,7 @@ h2{font:16px Georgia,serif;letter-spacing:.06em;margin:10px 0}.subs{display:flex
 <select id="fBody" onchange="render()"><option value="">身体部位：すべて</option></select><select id="fOrg" onchange="render()"><option value="">発行学会：すべて</option></select>
 <select id="fYear" onchange="render()"><option value="">発行年：すべて</option></select><select id="fAccess" onchange="render()"><option value="">アクセス：すべて</option></select>
 <button class="reset" onclick="clearFilters()">検索条件をクリア</button></div></div>
-<div class="crumb" id="activeFilters"></div></div><div class="resultTools"><h2 id="heading">蔵書一覧</h2><select id="sortMode" onchange="render()"><option value="new">新しい順</option><option value="old">古い順</option><option value="title">名称順</option></select></div><div class="subs" id="subs"></div><div class="results" id="results"></div><p class="hint">分類は原データを保持したまま、検索時のみ表記揺れ（例：頚椎→頸椎、膝関節→膝）を吸収します。</p><p class="hint">人体マップとカテゴリ検索は同じ検索状態として連動します。人体索引は身体部位・疾患・タイトルを優先して照合します。ズーム後は臓器輪郭に沿った不定形タップ領域へ切り替わります。臓器選択後も発行年・学会・アクセス条件を追加できます。</p></aside></div>
+<div class="crumb" id="activeFilters"></div></div><div class="resultTools"><h2 id="heading">蔵書一覧</h2><select id="sortMode" onchange="render()"><option value="new">新しい順</option><option value="old">古い順</option><option value="title">名称順</option></select></div><div class="subs" id="subs"></div><div class="results" id="results"></div><p class="hint">分類は原データを保持したまま、検索時のみ表記揺れ（例：頚椎→頸椎、膝関節→膝）を吸収します。</p><p class="hint">人体マップとカテゴリ検索は同じ検索状態として連動します。人体索引は身体部位・疾患・タイトルを優先して照合します。ズーム後はINDEXから解剖構造を選択します。臓器選択後も発行年・学会・アクセス条件を追加できます。</p></aside></div>
 <aside class="drawer" id="drawer"><button class="x" onclick="drawer.classList.remove('open')">×</button><div id="detail"></div></aside>
 <script>
 let DATA=[],area="",structure="",sub="",route="";
@@ -104,7 +131,7 @@ function jp(v){
  return JP[u]||JP[x]||x.replace(/_/g," ");
 }
 
-const A={head:{n:"頭部",s:2.35,x:"0%",y:"31%"},neck:{n:"頸部",s:2.65,x:"0%",y:"25%"},chest:{n:"胸部",s:2.15,x:"0%",y:"14%"},abdomen:{n:"腹部",s:2.35,x:"0%",y:"-3%"},pelvis:{n:"骨盤",s:2.45,x:"0%",y:"-20%"}};
+const A={head:{n:"頭部",s:2.80,x:"0%",y:"34%"},neck:{n:"頸部",s:3.05,x:"0%",y:"27%"},chest:{n:"胸部",s:2.35,x:"0%",y:"16%"},abdomen:{n:"腹部",s:2.48,x:"0%",y:"-2%"},pelvis:{n:"骨盤",s:2.58,x:"0%",y:"-19%"}};
 const S={
 brain:{n:"脳",k:["脳","神経","頭蓋"]},eye:{n:"眼",k:["眼","視"]},thyroid:{n:"甲状腺",k:["甲状腺"]},lung:{n:"肺・呼吸器",k:["肺","呼吸","気管支"]},heart:{n:"心臓",k:["心","循環","冠動脈"]},breast:{n:"乳腺",k:["乳"]},
 liver:{n:"肝臓",k:["肝"]},gall:{n:"胆嚢・胆道",k:["胆"]},pancreas:{n:"膵臓",k:["膵"]},stomach:{n:"胃",k:["胃"]},smallint:{n:"小腸",k:["小腸"]},colon:{n:"大腸・直腸",k:["大腸","結腸","直腸"]},kidney:{n:"腎臓",k:["腎"]},bladder:{n:"膀胱・尿路",k:["膀胱","尿路","泌尿"]},prostate:{n:"前立腺",k:["前立腺"]},uterus:{n:"子宮・卵巣",k:["子宮","卵巣","婦人"]},
@@ -136,61 +163,55 @@ function T(r){return [r.title,r.organization,r.publisher,r.specialtyLabel,r.spec
 function fieldText(r){return {title:String(r.title||""),disease:[r.diseaseCategory,r.diseaseGroup,r.diseases].join(" "),body:[r.body,r.bodyRegions].join(" "),specialty:[r.specialtyLabel,r.specialty,r.specialty2].join(" ")}}
 function anatomyMatch(r,key){if(!key)return true;let f=fieldText(r),ks=S[key].k;return ks.some(k=>f.body.includes(k)||f.disease.includes(k)||f.title.includes(k))}
 function subMatch(r,x){if(!x)return true;let f=fieldText(r);return x.split("・").filter(Boolean).some(k=>f.disease.includes(k)||f.body.includes(k)||f.title.includes(k))}
-function focusArea(k){area=k;structure="";sub="";let c=A[k],a=atlas;a.classList.add("reveal","zoom");a.style.setProperty("--s",c.s);a.style.setProperty("--tx",c.x);a.style.setProperty("--ty",c.y);tag.textContent=c.n+" — 解剖構造を選択";installOrganZones(k);render()}
-function installOrganZones(k){
-let m=document.getElementById("map");let base=`<button class="zone" data-label="全身へ" style="left:2%;top:86%;width:7%;height:7%" onclick="resetAtlas()"></button>`;let z="";
-if(k==="head")z=`
-<button class="zone poly" data-label="脳" style="left:46.2%;top:10.7%;width:7.8%;height:7.4%;--poly:18% 15%,45% 3%,76% 13%,94% 42%,82% 78%,55% 96%,24% 88%,5% 58%" onclick="selectStructure('brain')"></button>
-<button class="zone poly" data-label="眼" style="left:47.1%;top:17.2%;width:5.8%;height:2.5%;--poly:2% 50%,20% 12%,46% 6%,58% 8%,82% 16%,98% 50%,82% 84%,58% 92%,45% 90%,18% 84%" onclick="selectStructure('eye')"></button>`;
-if(k==="neck")z=`
-<button class="zone poly" data-label="甲状腺" style="left:47.2%;top:23.1%;width:5.6%;height:3.9%;--poly:5% 18%,30% 5%,47% 34%,52% 34%,70% 5%,95% 18%,82% 90%,57% 70%,50% 55%,43% 70%,18% 90%" onclick="selectStructure('thyroid')"></button>`;
-if(k==="chest")z=`
-<button class="zone poly" data-label="右肺" style="left:42.8%;top:29.2%;width:7.2%;height:12.4%;--poly:38% 0%,75% 8%,94% 34%,85% 78%,58% 100%,22% 92%,3% 58%,10% 20%" onclick="selectStructure('lung')"></button>
-<button class="zone poly" data-label="左肺" style="left:50.1%;top:29.2%;width:7.2%;height:12.4%;--poly:62% 0%,25% 8%,6% 34%,15% 78%,42% 100%,78% 92%,97% 58%,90% 20%" onclick="selectStructure('lung')"></button>
-<button class="zone poly" data-label="心臓" style="left:47.5%;top:33.2%;width:6.8%;height:8.3%;--poly:48% 0%,78% 16%,96% 48%,73% 86%,48% 100%,15% 74%,3% 38%,25% 10%" onclick="selectStructure('heart')"></button>
-<button class="zone poly" data-label="乳腺" style="left:41.6%;top:29.4%;width:17%;height:8%;--poly:2% 48%,13% 18%,31% 5%,48% 24%,52% 24%,69% 5%,87% 18%,98% 48%,88% 88%,67% 95%,50% 70%,33% 95%,12% 88%" onclick="selectStructure('breast')"></button>`;
-if(k==="abdomen")z=`
-<button class="zone poly" data-label="肝臓" style="left:42.3%;top:42.4%;width:11.5%;height:8.1%;--poly:3% 26%,28% 7%,66% 4%,96% 28%,88% 63%,58% 91%,25% 83%,6% 58%" onclick="selectStructure('liver')"></button>
-<button class="zone poly" data-label="胆嚢・胆道" style="left:48.2%;top:47.4%;width:3.2%;height:4.6%;--poly:45% 0%,73% 15%,88% 47%,68% 100%,35% 92%,12% 53%,24% 17%" onclick="selectStructure('gall')"></button>
-<button class="zone poly" data-label="胃" style="left:50.6%;top:44.5%;width:7.6%;height:8.2%;--poly:28% 0%,66% 8%,93% 34%,84% 72%,56% 100%,20% 82%,3% 48%,12% 18%" onclick="selectStructure('stomach')"></button>
-<button class="zone poly" data-label="膵臓" style="left:47.8%;top:49.1%;width:9%;height:3.2%;--poly:1% 47%,17% 22%,48% 9%,83% 18%,99% 48%,79% 73%,45% 90%,15% 78%" onclick="selectStructure('pancreas')"></button>
-<button class="zone poly" data-label="右腎" style="left:43.7%;top:49.6%;width:4.7%;height:7.4%;--poly:50% 0%,80% 15%,98% 47%,82% 84%,50% 100%,17% 82%,3% 48%,18% 15%" onclick="selectStructure('kidney')"></button>
-<button class="zone poly" data-label="左腎" style="left:52.1%;top:49.6%;width:4.7%;height:7.4%;--poly:50% 0%,82% 15%,97% 48%,83% 82%,50% 100%,18% 84%,2% 47%,20% 15%" onclick="selectStructure('kidney')"></button>
-<button class="zone poly" data-label="小腸" style="left:47%;top:52%;width:8.5%;height:8.5%;--poly:15% 3%,80% 4%,97% 22%,94% 82%,76% 97%,20% 95%,3% 77%,5% 22%" onclick="selectStructure('smallint')"></button>
-<button class="zone poly" data-label="大腸" style="left:44.1%;top:50.8%;width:13.4%;height:11.2%;--poly:3% 3%,97% 3%,97% 97%,79% 97%,79% 22%,21% 22%,21% 97%,3% 97%" onclick="selectStructure('colon')"></button>`;
-if(k==="pelvis")z=`
-<button class="zone poly" data-label="膀胱・尿路" style="left:47.6%;top:60.3%;width:5.5%;height:5.6%;--poly:50% 0%,78% 17%,96% 52%,75% 91%,50% 100%,25% 91%,4% 52%,22% 17%" onclick="selectStructure('bladder')"></button>
-<button class="zone poly" data-label="前立腺" style="left:48.6%;top:64.5%;width:3.5%;height:3.1%;--poly:50% 0%,91% 28%,80% 88%,50% 100%,20% 88%,9% 28%" onclick="selectStructure('prostate')"></button>
-<button class="zone poly" data-label="子宮・卵巣" style="left:46.5%;top:60.3%;width:7.5%;height:5.5%;--poly:0% 32%,28% 20%,40% 4%,50% 25%,60% 4%,72% 20%,100% 32%,76% 50%,62% 45%,58% 100%,42% 100%,38% 45%,24% 50%" onclick="selectStructure('uterus')"></button>`;
-m.innerHTML=base+z}
-function installBaseZones(){map.innerHTML=`
-<button class="zone" data-label="頭部" style="left:45%;top:10%;width:10%;height:10%" onclick="focusArea('head')"></button>
-<button class="zone" data-label="頸部" style="left:46%;top:20%;width:8%;height:6%" onclick="focusArea('neck')"></button>
-<button class="zone poly" data-label="頸椎" style="left:48%;top:20%;width:4%;height:8%;--poly:30% 0%,70% 0%,75% 100%,25% 100%" onclick="selectStructure('cspine')"></button>
-<button class="zone" data-label="胸部" style="left:43%;top:28%;width:14%;height:14%" onclick="focusArea('chest')"></button>
-<button class="zone poly" data-label="右肩" style="left:36%;top:27%;width:8%;height:7%;--poly:18% 10%,65% 0%,100% 38%,75% 92%,20% 82%,0% 42%" onclick="selectStructure('shoulder')"></button>
-<button class="zone poly" data-label="左肩" style="left:56%;top:27%;width:8%;height:7%;--poly:82% 10%,35% 0%,0% 38%,25% 92%,80% 82%,100% 42%" onclick="selectStructure('shoulder')"></button>
-<button class="zone" data-label="腹部" style="left:43%;top:43%;width:14%;height:14%" onclick="focusArea('abdomen')"></button>
-<button class="zone poly" data-label="胸椎" style="left:48.3%;top:28%;width:3.4%;height:15%;--poly:28% 0%,72% 0%,68% 100%,32% 100%" onclick="selectStructure('tspine')"></button>
-<button class="zone poly" data-label="腰椎" style="left:48%;top:43%;width:4%;height:13%;--poly:25% 0%,75% 0%,72% 100%,28% 100%" onclick="selectStructure('lspine')"></button>
-<button class="zone" data-label="骨盤" style="left:44%;top:57%;width:12%;height:9%" onclick="focusArea('pelvis')"></button>
-<button class="zone poly" data-label="右股関節" style="left:43%;top:61%;width:7%;height:7%;--poly:10% 20%,65% 0%,100% 45%,72% 100%,18% 85%,0% 48%" onclick="selectStructure('hip')"></button>
-<button class="zone poly" data-label="左股関節" style="left:50%;top:61%;width:7%;height:7%;--poly:90% 20%,35% 0%,0% 45%,28% 100%,82% 85%,100% 48%" onclick="selectStructure('hip')"></button>
-<button class="zone poly" data-label="右肘" style="left:27%;top:37%;width:7%;height:7%;--poly:15% 10%,80% 5%,100% 50%,78% 95%,15% 88%,0% 48%" onclick="selectStructure('elbow')"></button>
-<button class="zone poly" data-label="左肘" style="left:66%;top:37%;width:7%;height:7%;--poly:85% 10%,20% 5%,0% 50%,22% 95%,85% 88%,100% 48%" onclick="selectStructure('elbow')"></button>
-<button class="zone poly" data-label="右手・手関節" style="left:18%;top:44%;width:10%;height:12%;--poly:20% 0%,75% 5%,100% 35%,80% 100%,20% 92%,0% 40%" onclick="selectStructure('wrist')"></button>
-<button class="zone poly" data-label="左手・手関節" style="left:72%;top:44%;width:10%;height:12%;--poly:80% 0%,25% 5%,0% 35%,20% 100%,80% 92%,100% 40%" onclick="selectStructure('wrist')"></button>
-<button class="zone poly" data-label="右膝" style="left:43%;top:72%;width:7%;height:7%;--poly:12% 10%,82% 5%,100% 50%,80% 95%,15% 90%,0% 48%" onclick="selectStructure('knee')"></button>
-<button class="zone poly" data-label="左膝" style="left:50%;top:72%;width:7%;height:7%;--poly:88% 10%,18% 5%,0% 50%,20% 95%,85% 90%,100% 48%" onclick="selectStructure('knee')"></button>
-<button class="zone poly" data-label="右足関節" style="left:42%;top:87%;width:7%;height:6%;--poly:10% 10%,80% 5%,100% 48%,75% 95%,15% 88%,0% 45%" onclick="selectStructure('ankle')"></button>
-<button class="zone poly" data-label="左足関節" style="left:51%;top:87%;width:7%;height:6%;--poly:90% 10%,20% 5%,0% 48%,25% 95%,85% 88%,100% 45%" onclick="selectStructure('ankle')"></button>
-<button class="zone poly" data-label="右足部" style="left:40%;top:92%;width:9%;height:6%;--poly:8% 12%,62% 0%,100% 45%,80% 95%,15% 90%,0% 45%" onclick="selectStructure('foot')"></button>
-<button class="zone poly" data-label="左足部" style="left:51%;top:92%;width:9%;height:6%;--poly:92% 12%,38% 0%,0% 45%,20% 95%,85% 90%,100% 45%" onclick="selectStructure('foot')"></button>`}
-function selectStructure(k,label){structure=k;sub="";
-document.querySelectorAll(".zone").forEach(z=>z.classList.remove("chosen"));
-if(event&&event.currentTarget)event.currentTarget.classList.add("chosen");
-let ss=S[k];tag.textContent=(label||ss.n)+" — 選択中";render()}
-function resetAtlas(){area="";structure="";sub="";atlas.classList.remove("reveal","zoom");tag.textContent="人体索引 — 部位をタップ";installBaseZones();render()}
+
+const ROUTES={
+ head:{n:"頭",s:2.55,x:"0%",y:"31%",groups:{"中枢神経":["脳・脳血管"],"感覚・顔面":["眼","耳","鼻・副鼻腔","口腔・歯科","顎・顔面"],"外傷":["頭部外傷"]}},
+ neck:{n:"首",s:2.65,x:"0%",y:"24%",groups:{"運動器":["頸椎・脊髄"],"臓器":["甲状腺・副甲状腺","咽頭・喉頭","唾液腺"],"血管・その他":["頸部血管","頸部リンパ節・腫瘤"]}},
+ chest:{n:"胸部",s:2.18,x:"0%",y:"14%",groups:{"臓器":["肺・気管支","心臓","冠動脈・大血管","乳腺","食道","縦隔"],"運動器":["胸椎・脊髄","胸壁・肋骨"]}},
+ upper:{n:"肩〜手",s:1.72,x:"0%",y:"8%",groups:{"関節・部位":["肩","上腕","肘","前腕","手・手関節"],"軟部・神経":["末梢神経","腱・靱帯"],"外傷":["上肢外傷"]}},
+ abdomen:{n:"腹部",s:2.32,x:"0%",y:"-3%",groups:{"消化器":["肝臓","胆嚢・胆道","膵臓","胃・十二指腸","小腸","大腸"],"後腹膜・その他":["腎臓・副腎","脾臓","腹壁・ヘルニア"],"運動器":["腰椎・脊髄"]}},
+ pelvis:{n:"骨盤まわり",s:2.42,x:"0%",y:"-20%",groups:{"消化管":["直腸・肛門"],"泌尿・生殖":["膀胱・尿路","前立腺","子宮","卵巣・付属器","骨盤臓器"],"運動器":["股関節","骨盤・仙骨"]}},
+ lower:{n:"下肢",s:1.72,x:"0%",y:"-31%",groups:{"関節・部位":["大腿","膝","下腿","足関節","足・足趾"],"軟部・神経・血管":["末梢神経","腱・靱帯","下肢血管"],"外傷":["下肢外傷"]}}
+};
+const ITEM_KEY={"脳・脳血管":"brain","眼":"eye","甲状腺・副甲状腺":"thyroid","肺・気管支":"lung","心臓":"heart","乳腺":"breast","肝臓":"liver","胆嚢・胆道":"gall","膵臓":"pancreas","胃・十二指腸":"stomach","小腸":"smallint","大腸":"colon","腎臓・副腎":"kidney","膀胱・尿路":"bladder","前立腺":"prostate","子宮":"uterus","頸椎・脊髄":"cspine","胸椎・脊髄":"tspine","腰椎・脊髄":"lspine","肩":"shoulder","肘":"elbow","手・手関節":"wrist","股関節":"hip","膝":"knee","足関節":"ankle","足・足趾":"foot"};
+function openRoute(k,side=""){
+ const r=ROUTES[k]; if(!r)return;
+ // Critical: clear the previous organ/subcategory every time a new region is touched.
+ area=k;structure="";sub="";
+ atlas.classList.add("reveal","zoom");
+ let x=r.x;
+ if(k==="upper"&&side==="L")x="22%";
+ if(k==="upper"&&side==="R")x="-22%";
+ atlas.style.setProperty("--s",r.s);atlas.style.setProperty("--tx",x);atlas.style.setProperty("--ty",r.y);
+ tag.textContent=r.n+" — 解剖構造を選択";
+ indexTitle.textContent=r.n+" — INDEX";
+ indexBody.innerHTML=Object.entries(r.groups).map(([g,items])=>`<div class="indexGroup"><div>${g}</div><div class="indexChoices">${items.map(v=>`<button type="button" onclick="chooseIndex('${v.replaceAll("'","")}')">${v}</button>`).join("")}</div></div>`).join("");
+ indexShade.classList.add("open");indexPopup.classList.add("open");indexPopup.setAttribute("aria-hidden","false");
+ render();
+}
+function closeIndex(){indexShade.classList.remove("open");indexPopup.classList.remove("open");indexPopup.setAttribute("aria-hidden","true")}
+function chooseIndex(label){
+ const key=ITEM_KEY[label];
+ structure=key&&S[key]?key:"";sub=structure?"":label;
+ tag.textContent=label+" — 選択中";
+ closeIndex();render();
+}
+function resetAtlas(){
+ area="";structure="";sub="";
+ atlas.classList.remove("reveal","zoom");
+ atlas.style.removeProperty("--s");atlas.style.removeProperty("--tx");atlas.style.removeProperty("--ty");
+ tag.textContent="人体索引 — 部位をタップ";closeIndex();render();
+}
+function bindRouteZones(){
+ document.querySelectorAll(".routeZone").forEach(b=>{
+  b.addEventListener("click",e=>{
+   e.preventDefault();e.stopPropagation();
+   const side=b.classList.contains("rz-arm-l")?"L":b.classList.contains("rz-arm-r")?"R":"";
+   openRoute(b.dataset.region,side);
+  });
+ });
+}
+document.addEventListener("DOMContentLoaded",bindRouteZones);
 function setSub(s){sub=sub===s?"":s;render()}
 function pickSpecialty(v){document.getElementById("fSpecialty").value=v;render()}
 function syncSpecialty(){let v=document.getElementById("fSpecialty").value;document.querySelectorAll("#specialtyChips button").forEach(b=>b.classList.toggle("on",b.dataset.sp===v))}
@@ -199,7 +220,7 @@ function setRoute(v){route=v;if(v==="systemic")resetAtlas();render()}
 function syncQuickSearch(v){let q=document.getElementById("q");if(q)q.value=v;render()}
 function toggleFilters(){document.getElementById("filtersPanel")?.classList.toggle("open")}
 function resetAll(){
- route="";area="";structure="";sub="";
+ route="";resetAtlas();
  ["q","specialty","disease","body","org","year","access"].forEach(id=>{let e=document.getElementById(id);if(e)e.value=""});
  let qs=document.getElementById("quickSearch");if(qs)qs.value="";
  document.querySelectorAll(".zone,.specialtyChips button").forEach(e=>e.classList.remove("chosen","active"));
@@ -212,7 +233,7 @@ function filterSummary(){
  let box=document.getElementById("activeFilters");if(box)box.innerHTML=a.map(x=>`<span class="filterChip">${esc(x)}</span>`).join("");
 }
 function vals(id){return document.getElementById(id).value}
-function render(){syncSpecialty();let q=qEl().value.trim(),sp=vals("fSpecialty"),dz=vals("fDisease"),bd=vals("fBody"),org=vals("fOrg"),yr=vals("fYear"),ac=vals("fAccess");let af=[];if(sp)af.push("診療科："+sp);if(dz)af.push("疾患："+dz);if(bd)af.push("部位："+bd);if(yr)af.push("年："+yr);if(ac)af.push("公開："+ac);activeFilters.textContent=af.length?"絞り込み｜"+af.join(" / "):"";let arr=DATA.filter(r=>{let t=T(r);let anatomy=anatomyMatch(r,structure);let routeOK=!route||(route==="body"?r.bodyAudit!=="部位不要候補":route==="systemic"?r.bodyAudit==="部位不要候補":true);return(!q||t.includes(q))&&anatomy&&subMatch(r,sub)&&routeOK&&(!sp||r.specialtyLabel===sp)&&(!dz||[r.diseaseCategory,r.diseaseGroup,r.diseases].join(" ").includes(dz))&&(!bd||[r.body,r.bodyRegions].join(" ").includes(bd))&&(!org||r.organization===org)&&(!yr||String(r.year)===yr)&&(!ac||r.accessLabel===ac)});let sm=document.getElementById("sortMode")?.value||"new";arr.sort((a,b)=>sm==="old"?(a.year||0)-(b.year||0):sm==="title"?String(a.title||"").localeCompare(String(b.title||""),"ja"):(b.year||0)-(a.year||0));filterSummary();heading.innerHTML=(structure?S[structure].n:"蔵書一覧")+" — "+arr.length+"冊";crumb.textContent="全身"+(area?" ＞ "+A[area].n:"")+(structure?" ＞ "+S[structure].n:"")+(sub?" ＞ "+sub:"");document.getElementById("subs").innerHTML=structure&&subs[structure]?subs[structure].map(s=>`<button class="${sub===s?'on':''}" onclick="setSub('${s}')">${s}</button>`).join(""):"";results.innerHTML=arr.slice(0,180).map(r=>`<div class="card" onclick="openD('${r.id}')"><div class="title">${esc(r.title)}</div><div class="meta">${esc(r.organization||"")}　${r.year||""}　${esc(r.specialtyLabel||"")}</div><span class="badge">${esc(r.accessLabel||"未確認")}</span>${structure?`<div class="matchwhy">人体索引：${esc(S[structure].n)} に関連</div>`:""}</div>`).join("")||'<p class="hint">該当する蔵書はありません。</p>'}
+function render(){syncSpecialty();let q=qEl().value.trim(),sp=vals("fSpecialty"),dz=vals("fDisease"),bd=vals("fBody"),org=vals("fOrg"),yr=vals("fYear"),ac=vals("fAccess");let af=[];if(sp)af.push("診療科："+sp);if(dz)af.push("疾患："+dz);if(bd)af.push("部位："+bd);if(yr)af.push("年："+yr);if(ac)af.push("公開："+ac);activeFilters.textContent=af.length?"絞り込み｜"+af.join(" / "):"";let arr=DATA.filter(r=>{let t=T(r);let anatomy=anatomyMatch(r,structure);let routeOK=!route||(route==="body"?r.bodyAudit!=="部位不要候補":route==="systemic"?r.bodyAudit==="部位不要候補":true);return(!q||t.includes(q))&&anatomy&&subMatch(r,sub)&&routeOK&&(!sp||r.specialtyLabel===sp)&&(!dz||[r.diseaseCategory,r.diseaseGroup,r.diseases].join(" ").includes(dz))&&(!bd||[r.body,r.bodyRegions].join(" ").includes(bd))&&(!org||r.organization===org)&&(!yr||String(r.year)===yr)&&(!ac||r.accessLabel===ac)});let sm=document.getElementById("sortMode")?.value||"new";arr.sort((a,b)=>sm==="old"?(a.year||0)-(b.year||0):sm==="title"?String(a.title||"").localeCompare(String(b.title||""),"ja"):(b.year||0)-(a.year||0));filterSummary();heading.innerHTML=(structure?S[structure].n:"蔵書一覧")+" — "+arr.length+"冊";crumb.textContent="全身"+(area?" ＞ "+(ROUTES[area]?.n||""):"")+(structure?" ＞ "+S[structure].n:"")+(sub?" ＞ "+sub:"");document.getElementById("subs").innerHTML=structure&&subs[structure]?subs[structure].map(s=>`<button class="${sub===s?'on':''}" onclick="setSub('${s}')">${s}</button>`).join(""):"";results.innerHTML=arr.slice(0,180).map(r=>`<div class="card" onclick="openD('${r.id}')"><div class="title">${esc(r.title)}</div><div class="meta">${esc(r.organization||"")}　${r.year||""}　${esc(r.specialtyLabel||"")}</div><span class="badge">${esc(r.accessLabel||"未確認")}</span>${structure?`<div class="matchwhy">人体索引：${esc(S[structure].n)} に関連</div>`:""}</div>`).join("")||'<p class="hint">該当する蔵書はありません。</p>'}
 function buildFilters(){let spl=unique(DATA.map(r=>r.specialtyLabel));fill("fSpecialty",spl,"診療科：すべて");
 specialtyChips.innerHTML=spl.map(x=>`<button data-sp="${esc(x)}" onclick="pickSpecialty('${String(x).replace(/'/g,"\\'")}')">${esc(x)}</button>`).join("");fill("fOrg",unique(DATA.map(r=>r.organization)),"発行学会：すべて");fill("fYear",unique(DATA.map(r=>r.year)).sort((a,b)=>b-a),"発行年：すべて");fill("fAccess",unique(DATA.map(r=>r.accessLabel)),"アクセス：すべて");fill("fBody",unique(DATA.flatMap(r=>String(r.body||"").split(";"))),"身体部位：すべて");let ds=unique(DATA.flatMap(r=>String(r.diseases||"").split(";"))).filter(x=>x.length>1);fill("fDisease",ds.slice(0,300),"疾患群：すべて")}
 function unique(a){return [...new Set(a.filter(Boolean))].sort((a,b)=>String(a).localeCompare(String(b),"ja"))}function fill(id,a,first){let e=document.getElementById(id);e.innerHTML=`<option value="">${first}</option>`+a.map(x=>`<option>${esc(x)}</option>`).join("")}
