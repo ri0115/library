@@ -7,7 +7,7 @@
 body{font-family:"Yu Mincho","Hiragino Mincho ProN",Georgia,serif}
 .app{min-height:100vh;display:grid;grid-template-columns:minmax(0,1fr) 410px;background:linear-gradient(90deg,#8c5d34,#d2a86d 8%,#dfc18a 50%,#b77e48)}
 .atlas{position:relative;overflow:hidden;min-height:100vh;touch-action:manipulation}.layer{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;transition:opacity .55s,transform .82s cubic-bezier(.2,.8,.2,1);transform-origin:50% 50%}
-.home{opacity:1}.anatomy{opacity:0;filter:sepia(.10) saturate(.9);mix-blend-mode:multiply}.atlas.reveal .home{opacity:.11}.atlas.reveal .anatomy{opacity:1}.atlas.zoom .layer,.atlas.zoom .map{transform:translate(var(--tx),var(--ty)) scale(var(--s))}
+.home{opacity:1}.anatomy{opacity:0;filter:sepia(.10) saturate(.9);mix-blend-mode:multiply}.atlas.reveal .home{opacity:.11}.atlas.reveal .anatomy{opacity:1}.atlas.zoom .layer{transform:translate(var(--tx),var(--ty)) scale(var(--s))}.atlas.zoom .map{transform:none!important}
 .map{position:absolute;inset:0;z-index:6;transition:transform .82s cubic-bezier(.2,.8,.2,1);transform-origin:50% 50%;pointer-events:none}
 .zone{position:absolute;border:0;background:transparent;pointer-events:auto;cursor:pointer;border-radius:20%;-webkit-tap-highlight-color:transparent}.poly{clip-path:polygon(var(--poly));border-radius:0}.zone:hover,.zone:focus{outline:1px dashed #5b381f99;background:#f4d18a25}.zone:active{background:#8d5d2f35}.zone.chosen{outline:2px solid #5c351dcc;background:#d7a65742;box-shadow:0 0 0 5px #f1d49c33 inset}
 .zone::after{content:attr(data-label);position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font:9px Georgia,serif;letter-spacing:.05em;color:#4a2f19;opacity:0;white-space:nowrap;text-shadow:0 1px #f1d49c}.atlas.reveal .zone:hover::after{opacity:1}
@@ -78,9 +78,9 @@ h2{font:16px Georgia,serif;letter-spacing:.06em;margin:10px 0}.subs{display:flex
 .rz-arm-r{left:64%!important;top:22%!important;width:32%!important;height:36%!important;z-index:11!important}
 
 /* pelvis is intentionally narrow: hip + genital/pelvic region only */
-.rz-pelvis{left:34%!important;top:57%!important;width:32%!important;height:13%!important;z-index:12!important}
+.rz-pelvis{left:35%!important;top:57%!important;width:30%!important;height:9%!important;z-index:12!important}
 /* lower limb starts at thigh and continues to foot */
-.rz-lower{left:27%!important;top:68%!important;width:46%!important;height:31%!important;z-index:9!important}
+.rz-lower{left:27%!important;top:66%!important;width:46%!important;height:33%!important;z-index:9!important}
 
 /* catalogue/readability: stronger Japanese text without changing the classical design */
 .results,.result,.card,.catalogue,.summary,.count,.crumb,.meta,
@@ -96,6 +96,55 @@ h2{font:16px Georgia,serif;letter-spacing:.06em;margin:10px 0}.subs{display:flex
  .results,.result,.card,.catalogue,.summary{font-size:max(14px,1em)}
  .meta,.crumb,.count{font-size:max(12px,.95em)}
  .card h3,.result h3{font-size:max(16px,1.08em)}
+}
+
+/* append ?debug=1 to inspect hit boxes; invisible in normal use */
+body.debug-hit .routeZone{background:rgba(120,60,20,.13)!important;outline:1px solid rgba(90,40,10,.55)!important}
+body.debug-hit .routeZone::after{content:attr(aria-label);display:block;font:10px sans-serif;color:#321;background:#f3dca8cc;padding:2px}
+
+/* v21 catalogue readability */
+.brand h1,.brandTitle{font-size:clamp(27px,4.3vw,38px)!important;line-height:1.05!important;letter-spacing:.045em!important}
+.brand p,.brandSub{font-size:clamp(16px,2.7vw,21px)!important;line-height:1.4!important}
+.crumb{font-size:clamp(18px,3.3vw,25px)!important;line-height:1.45!important;font-weight:600!important;margin:18px 0!important}
+.resultsHead,.results-header{padding:20px 16px!important;align-items:center!important}
+.resultsHead h2,.results-header h2,.results h2{font-size:clamp(23px,4vw,31px)!important;line-height:1.25!important;font-weight:650!important}
+.resultsHead select,.results-header select,select#sort{font-size:clamp(15px,2.8vw,19px)!important;min-height:48px!important;padding:8px 38px 8px 14px!important}
+.card h3,.result h3{font-size:clamp(18px,3.4vw,24px)!important;line-height:1.42!important;font-weight:650!important}
+.card p,.result p,.meta{font-size:clamp(14px,2.7vw,17px)!important;line-height:1.65!important}
+@media(max-width:760px){
+ .brand{padding-top:12px!important}
+ .resultsHead,.results-header{gap:10px!important}
+}
+
+/* detail drawer: permanent, obvious return control */
+.detailBackBtn{display:flex;align-items:center;gap:7px;width:max-content;min-height:44px;padding:9px 13px;margin:0 0 13px;border:1px solid var(--line);background:#e7c98f;color:var(--ink);font:600 15px/1.2 inherit;cursor:pointer}
+.detailBackBtn:active{transform:translateY(1px)}
+.detailTopBack{position:sticky;top:0;z-index:5;background:inherit;padding-top:4px}
+@media(max-width:760px){.detailBackBtn{font-size:16px;min-height:48px}}
+
+/* v22 — antique library catalogue-card detail */
+.detail,.drawer,.detailDrawer,#detail{
+  background:
+    linear-gradient(rgba(244,229,190,.97),rgba(232,207,156,.97)),
+    repeating-linear-gradient(0deg,transparent 0 31px,rgba(100,69,35,.06) 31px 32px)!important;
+}
+.detailCardSheet{border:1px solid rgba(91,61,29,.38);background:rgba(255,246,217,.56);box-shadow:0 7px 22px rgba(55,31,12,.12);padding:18px;margin-top:8px}
+.detailEyebrow{font:600 10px/1.2 Georgia,serif;letter-spacing:.18em;color:rgba(63,42,23,.62);margin-bottom:8px}
+.detailTitleV22{font-size:clamp(22px,4.2vw,31px)!important;line-height:1.38!important;font-weight:650!important;margin:0 0 16px!important}
+.catalogueNo{display:inline-block;border:1px solid rgba(91,61,29,.35);padding:4px 8px;margin-bottom:12px;font:600 11px Georgia,serif;letter-spacing:.08em}
+.detailGridV22{display:grid;grid-template-columns:120px 1fr;border-top:1px solid rgba(91,61,29,.28);margin-top:14px}
+.detailGridV22 .k,.detailGridV22 .v{padding:10px 8px;border-bottom:1px solid rgba(91,61,29,.20)}
+.detailGridV22 .k{font-size:12px;font-weight:650;letter-spacing:.06em;color:rgba(60,39,20,.66)}
+.detailGridV22 .v{font-size:15px;font-weight:520;line-height:1.55}
+.detailLinksV22{display:grid;gap:8px;margin-top:18px}
+.detailLinksV22 a{display:flex;justify-content:space-between;align-items:center;min-height:48px;padding:10px 12px;border:1px solid rgba(91,61,29,.38);background:rgba(226,194,132,.55);color:var(--ink);text-decoration:none;font-weight:620}
+.detailLinksV22 a::after{content:"↗";font-family:Georgia,serif}
+.detailStatusV22{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0}
+.detailStatusV22 span{border:1px solid rgba(91,61,29,.28);padding:5px 8px;font-size:11px;font-weight:650;background:rgba(247,234,196,.58)}
+@media(max-width:760px){
+ .detailCardSheet{padding:14px;margin:4px 0}
+ .detailGridV22{grid-template-columns:94px 1fr}
+ .detailGridV22 .k{font-size:11px}.detailGridV22 .v{font-size:15px}
 }
 </style></head><body>
 <div class="uxbar"><div class="uxinner">
@@ -205,6 +254,7 @@ const ROUTES={
 };
 const ITEM_KEY={"脳・脳血管":"brain","眼":"eye","甲状腺・副甲状腺":"thyroid","肺・気管支":"lung","心臓":"heart","乳腺":"breast","肝臓":"liver","胆嚢・胆道":"gall","膵臓":"pancreas","胃・十二指腸":"stomach","小腸":"smallint","大腸":"colon","腎臓・副腎":"kidney","膀胱・尿路":"bladder","前立腺":"prostate","子宮":"uterus","頸椎・脊髄":"cspine","胸椎・脊髄":"tspine","腰椎・脊髄":"lspine","肩":"shoulder","肘":"elbow","手・手関節":"wrist","股関節":"hip","膝":"knee","足関節":"ankle","足・足趾":"foot"};
 function openRoute(k,side=""){
+ const hitMap=document.getElementById("map");if(hitMap)hitMap.style.transform="none";
  const r=ROUTES[k]; if(!r)return;
  // Critical: clear the previous organ/subcategory every time a new region is touched.
  area=k;structure="";sub="";
@@ -241,7 +291,7 @@ function bindRouteZones(){
   });
  });
 }
-document.addEventListener("DOMContentLoaded",bindRouteZones);
+document.addEventListener("DOMContentLoaded",()=>{bindRouteZones();if(new URLSearchParams(location.search).get("debug")==="1")document.body.classList.add("debug-hit")});
 function setSub(s){sub=sub===s?"":s;render()}
 function pickSpecialty(v){document.getElementById("fSpecialty").value=v;render()}
 function syncSpecialty(){let v=document.getElementById("fSpecialty").value;document.querySelectorAll("#specialtyChips button").forEach(b=>b.classList.toggle("on",b.dataset.sp===v))}
@@ -268,9 +318,42 @@ function buildFilters(){let spl=unique(DATA.map(r=>r.specialtyLabel));fill("fSpe
 specialtyChips.innerHTML=spl.map(x=>`<button data-sp="${esc(x)}" onclick="pickSpecialty('${String(x).replace(/'/g,"\\'")}')">${esc(x)}</button>`).join("");fill("fOrg",unique(DATA.map(r=>r.organization)),"発行学会：すべて");fill("fYear",unique(DATA.map(r=>r.year)).sort((a,b)=>b-a),"発行年：すべて");fill("fAccess",unique(DATA.map(r=>r.accessLabel)),"アクセス：すべて");fill("fBody",unique(DATA.flatMap(r=>String(r.body||"").split(";"))),"身体部位：すべて");let ds=unique(DATA.flatMap(r=>String(r.diseases||"").split(";"))).filter(x=>x.length>1);fill("fDisease",ds.slice(0,300),"疾患群：すべて")}
 function unique(a){return [...new Set(a.filter(Boolean))].sort((a,b)=>String(a).localeCompare(String(b),"ja"))}function fill(id,a,first){let e=document.getElementById(id);e.innerHTML=`<option value="">${first}</option>`+a.map(x=>`<option>${esc(x)}</option>`).join("")}
 function clearFilters(){["fSpecialty","fDisease","fBody","fOrg","fYear","fAccess"].forEach(id=>document.getElementById(id).value="");qEl().value="";render()}function toggleFilters(){filterBody.classList.toggle("hidden");fmark.textContent=filterBody.classList.contains("hidden")?"+":"−"}function qEl(){return document.getElementById("q")}
-function openD(id){let r=DATA.find(x=>x.id===id);if(!r)return;let L=[["公式",r.official],["本文",r.fulltext],["Minds",r.minds],["出版社",r.publisherUrl]].filter(x=>x[1]);detail.innerHTML=`<p>${esc(r.id||"")}</p><h1>${esc(r.title)}</h1><div class="dl"><b>発行年</b><span>${r.year||"—"}</span><b>学会</b><span>${esc(r.organization||"—")}</span><b>診療科</b><span>${esc(r.specialtyLabel||r.specialty||"—")}</span><b>疾患</b><span>${esc(r.diseases||r.diseaseCategory||"—")}</span><b>アクセス</b><span>${esc(r.accessLabel||"—")}</span><b>価格</b><span>${r.price?"¥"+Number(r.price).toLocaleString():"—"}</span><b>確認状況</b><span>${esc(r.verifiedLabel||"確認済み")}</span><b>人体索引</b><span>${esc(r.bodyAudit==="部位不要候補"?"部位によらない":r.bodyAudit==="部位付与候補"?"分類確認中":r.bodyAudit==="判断保留"?"分類保留":"部位情報あり")}</span></div><div class="links">${L.map(x=>`<a href="${esc(x[1])}" target="_blank">${x[0]} →</a>`).join("")}</div>`;drawer.classList.add("open")}
+function openD(id){let r=DATA.find(x=>x.id===id);if(!r)return;let L=[["公式",r.official],["本文",r.fulltext],["Minds",r.minds],["出版社",r.publisherUrl]].filter(x=>x[1]);detail.innerHTML=`<div class="detailTopBack"><button type="button" class="detailBackBtn" onclick="closeDetail()">← 蔵書一覧へ戻る</button></div><p>${esc(r.id||"")}</p><h1>${esc(r.title)}</h1><div class="dl"><b>発行年</b><span>${r.year||"—"}</span><b>学会</b><span>${esc(r.organization||"—")}</span><b>診療科</b><span>${esc(r.specialtyLabel||r.specialty||"—")}</span><b>疾患</b><span>${esc(r.diseases||r.diseaseCategory||"—")}</span><b>アクセス</b><span>${esc(r.accessLabel||"—")}</span><b>価格</b><span>${r.price?"¥"+Number(r.price).toLocaleString():"—"}</span><b>確認状況</b><span>${esc(r.verifiedLabel||"確認済み")}</span><b>人体索引</b><span>${esc(r.bodyAudit==="部位不要候補"?"部位によらない":r.bodyAudit==="部位付与候補"?"分類確認中":r.bodyAudit==="判断保留"?"分類保留":"部位情報あり")}</span></div><div class="links">${L.map(x=>`<a href="${esc(x[1])}" target="_blank">${x[0]} →</a>`).join("")}</div>`;drawer.classList.add("open")}
 function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
 
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){document.getElementById("filtersPanel")?.classList.remove("open");document.getElementById("drawer")?.classList.remove("open")}});
 window.addEventListener("scroll",()=>{let b=document.getElementById("toTop");if(b)b.style.display=window.scrollY>700?"block":"none"});
+
+function closeDetail(){
+ const d=document.querySelector("#detail,.detail,.drawer,.detailDrawer");
+ if(d){d.classList.remove("open");d.setAttribute("aria-hidden","true");}
+ document.body.classList.remove("detail-open");
+ history.replaceState(null,"",location.pathname+location.search);
+}
+
+function decorateDetailCard(){
+ const d=document.querySelector("#detail,.detail,.drawer,.detailDrawer");
+ if(!d||!d.classList.contains("open")||d.querySelector(".detailCardSheet"))return;
+ const back=d.querySelector(".detailBackBtn");
+ const headings=[...d.querySelectorAll("h1,h2,h3")];
+ const title=headings.find(h=>!h.closest(".detailTopBack"));
+ if(title){title.classList.add("detailTitleV22");}
+ const wrap=document.createElement("div");wrap.className="detailCardSheet";
+ const eyebrow=document.createElement("div");eyebrow.className="detailEyebrow";eyebrow.textContent="LIBRARY CATALOGUE / 診療ガイドライン蔵書票";
+ if(title) title.parentNode.insertBefore(wrap,title);
+ else d.appendChild(wrap);
+ wrap.appendChild(eyebrow);
+ if(title)wrap.appendChild(title);
+ // Move the remaining detail content into the paper card, keeping the back button outside.
+ [...d.children].forEach(el=>{
+   if(el!==wrap && !el.classList.contains("detailTopBack") && !el.classList.contains("detailBackBtn")) wrap.appendChild(el);
+ });
+ // Style existing links as source shelves without changing URLs.
+ const links=[...wrap.querySelectorAll("a")].filter(a=>a.href);
+ if(links.length){
+   const box=document.createElement("div");box.className="detailLinksV22";
+   links.forEach(a=>box.appendChild(a));wrap.appendChild(box);
+ }
+}
+document.addEventListener("click",()=>setTimeout(decorateDetailCard,0));
 </script></body></html>
