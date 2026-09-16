@@ -1,0 +1,8 @@
+V51 CROSS-SEARCH UI
+- Data master remains 630 records.
+- Added a compact cross-search hub above the catalogue.
+- Search axes: specialty / disease / body / recent / patient-public.
+- Added active-condition chip area and visible-result counter.
+- Existing anatomy coordinates and navigation behavior were not changed.
+- Existing full-screen library mode and CSV export retained.
+- This is a progressive enhancement over v50, not a redesign.

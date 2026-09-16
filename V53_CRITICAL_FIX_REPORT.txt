@@ -1,0 +1,31 @@
+V53 CRITICAL NAVIGATION FIX
+User-reported regressions addressed:
+1. HEAD zoom landing above the head:
+   - Root cause: canonical image coordinates were being mapped through object-fit:cover and then transformed on the full atlas-sized IMG box.
+   - Fix: both HOME and COLOR foreground images now occupy one explicit contain rectangle. Zoom math is local to that rectangle.
+2. NECK tap jumping to lower limb:
+   - Root cause: hit rectangles and visible HOME image could use different effective coordinate surfaces under cover/cropping.
+   - Fix: hit layer and visible HOME image now share the exact same rectangle and 1024x1536 coordinate system.
+3. Background preservation:
+   - atlasPaper remains fixed and never receives zoom transforms.
+   - only the foreground COLOR anatomy image zooms.
+4. Simple display missing:
+   - v52's .app grid was not disabled in library-only mode, so the catalogue could remain constrained to the right column.
+   - added body.library-only .app {display:block}; catalogue is true full width.
+   - button renamed from '蔵書検索' to 'シンプル表示'.
+   - secondary filter panels are hidden in simple mode; primary search remains.
+5. Removed the v52 extra search wrapper that created a competing/broken search surface.
+
+Preserved:
+- 630-record MASTER data
+- HOME/COLOR approved coordinate tables
+- anatomy popup taxonomy
+- CSV export
+- persistent whole-body return
+- existing catalogue/detail design
+
+Verification performed:
+- duplicate HTML IDs: none
+- JavaScript syntax: node --check passed
+- image files: 1024x1536 for both HOME and COLOR
+Browser/device interaction testing is still distinct from these static checks.

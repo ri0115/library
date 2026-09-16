@@ -460,9 +460,58 @@ body.library-only .libraryLedgerCell b{
  body.library-only .catalogue,body.library-only .catalog{padding-top:58px!important}
 }
 
-</style></head><body data-build="v35-tag-audit"><div class="viewModeSwitch" role="group" aria-label="表示モード">
+</style>
+
+
+
+
+
+
+<style id="v53-critical-fixes">
+/* Exact coordinate surface: JS positions both image layers to the same contain rectangle. */
+#atlas .layer{
+  object-fit:fill!important;
+  max-width:none!important;max-height:none!important;
+  transform-origin:0 0!important;
+}
+/* Real full-screen simple/library mode. .app was still a two-column grid in v52. */
+body.library-only .app{display:block!important;width:100%!important;max-width:none!important}
+body.library-only .catalog{display:block!important;width:100%!important;max-width:none!important;border-left:0!important}
+body.library-only #atlas{display:none!important}
+body.library-only .viewModeSwitch{position:fixed!important}
+@media(max-width:900px){
+ body.library-only .catalog{padding-top:58px!important}
+}
+/* Search-first simple view: hide secondary filter machinery until explicitly needed. */
+body.library-only .routeSearch,
+body.library-only .specialtySearch,
+body.library-only .filters{display:none!important}
+body.library-only .catalog>.brand{margin-bottom:10px!important}
+</style>
+
+
+<style id="v54-background-preservation-fix">
+/* V54 three-layer contract:
+   1) atlasPaper = original stable background; never transformed/replaced here
+   2) .home      = HOME figure
+   3) .anatomy   = COLOR figure; only this layer may zoom
+*/
+#atlas .atlasPaper{
+  transform:none!important;
+  transition:none!important;
+}
+#atlas .home{
+  transform:none!important;
+  transform-origin:0 0!important;
+}
+#atlas .anatomy{
+  transform-origin:0 0!important;
+}
+</style>
+
+</head><body data-build="v54-background-preserved"><div class="viewModeSwitch" role="group" aria-label="表示モード">
 <button type="button" id="modeAtlasBtn" class="active" onclick="setViewMode('atlas')">人体＋蔵書</button>
-<button type="button" id="modeLibraryBtn" onclick="setViewMode('library')">蔵書検索</button><button type="button" id="csvExportBtn" onclick="exportVisibleCSV()" title="現在表示中の蔵書をCSV出力">CSV出力</button>
+<button type="button" id="modeLibraryBtn" onclick="setViewMode('library')">シンプル表示</button><button type="button" id="csvExportBtn" onclick="exportVisibleCSV()" title="現在表示中の蔵書をCSV出力">CSV出力</button>
 </div>
 <div class="uxbar"><div class="uxinner">
 <input id="quickSearch" placeholder="ガイドライン名・疾患・学会名を検索" oninput="syncQuickSearch(this.value)">
@@ -476,7 +525,7 @@ body.library-only .libraryLedgerCell b{
 <div class="tag" id="tag">人体索引 — 部位をタップ</div><button class="catalogBtn" onclick="document.getElementById('q').focus()">蔵書検索</button>
 <div class="a3-debug-readout" id="a3DebugReadout">READY</div><button type="button" class="back" id="backToWhole" onclick="resetAtlas();render();return false;">← 全身へ戻る</button></main>
 <aside class="catalog"><div class="brand">MEDICAL GUIDELINE LIBRARY<br><small>診療ガイドライン図書館</small></div>
-<div class="search"><input id="q" placeholder="疾患名・学会名・ガイドライン名…" oninput="syncMainSearch(this.value)"><button type="button" onclick="render()">検索</button></div><div class="crumb" id="crumb">全身 ＞ 全ガイドライン</div>
+<div class="search"><input id="q" placeholder="ガイドライン名・疾患・診療科・部位を検索" oninput="syncMainSearch(this.value)"><button type="button" onclick="render()">検索</button></div><div class="crumb" id="crumb">全身 ＞ 全ガイドライン</div>
 <div class="filtersPanel" id="filtersPanel"><section class="routeSearch"><div class="specialtyHead">探し方</div><div class="specialtyChips">
 <button onclick="setRoute('')">すべて</button><button onclick="setRoute('body')">人体・臓器から</button><button onclick="setRoute('systemic')">全身・部位によらない</button>
 </div></section><section class="specialtySearch">
@@ -727,16 +776,30 @@ function a3ContainRect(){
  const at=document.getElementById("atlas");
  if(!at)return null;
  const w=at.clientWidth,h=at.clientHeight;
- const home=at.querySelector(".home");
- const fit=home?getComputedStyle(home).objectFit:"cover";
- const u=(fit==="contain")?Math.min(w/A3_IMG.w,h/A3_IMG.h):Math.max(w/A3_IMG.w,h/A3_IMG.h);
+ /* Canonical coordinate space is always CONTAIN.
+    The visible foreground layers are explicitly sized to this rectangle. */
+ const u=Math.min(w/A3_IMG.w,h/A3_IMG.h);
  const rw=A3_IMG.w*u,rh=A3_IMG.h*u;
- return {atlas:at,left:(w-rw)/2,top:(h-rh)/2,width:rw,height:rh,unit:u,fit};
+ return {atlas:at,left:(w-rw)/2,top:(h-rh)/2,width:rw,height:rh,unit:u,fit:"contain"};
+}
+
+function a3PositionImageLayers(){
+ const g=a3ContainRect();if(!g)return;
+ g.atlas.querySelectorAll(".home,.anatomy").forEach(img=>{
+   img.style.setProperty("left",g.left+"px","important");
+   img.style.setProperty("top",g.top+"px","important");
+   img.style.setProperty("width",g.width+"px","important");
+   img.style.setProperty("height",g.height+"px","important");
+   img.style.setProperty("right","auto","important");
+   img.style.setProperty("bottom","auto","important");
+   img.style.setProperty("object-fit","fill","important");
+ });
 }
 
 function a3PositionHitLayer(){
  const g=a3ContainRect(),lay=document.querySelector(".a3-hitlayer");
  if(!g||!lay)return;
+ a3PositionImageLayers();
  lay.style.left=g.left+"px"; lay.style.top=g.top+"px";
  lay.style.width=g.width+"px"; lay.style.height=g.height+"px";
  lay.style.right="auto"; lay.style.bottom="auto";
@@ -752,19 +815,19 @@ function a3PositionHitLayer(){
 function a3ApplyZoom(key){
  const g=a3ContainRect(),m=A3_META[key],q=A3_COLOR_TARGETS[key];
  if(!g||!m||!q)return;
+ a3PositionImageLayers();
  const cx=(q[0]+q[2])/2,cy=(q[1]+q[3])/2;
- const px=g.left+cx*g.unit,py=g.top+cy*g.unit;
+ const localX=cx*g.unit, localY=cy*g.unit;
  const S=m.scale;
- const tx=g.atlas.clientWidth/2-S*px;
- const ty=g.atlas.clientHeight/2-S*py;
-
- /* HOME and COLOR are intentionally NOT transformed together.
-    HOME disappears; only the color anatomy receives the zoom. */
+ /* anatomy element starts at g.left/g.top.
+    Translate in its local coordinate system so target center lands at atlas center. */
+ const tx=(g.atlas.clientWidth/2-g.left)-S*localX;
+ const ty=(g.atlas.clientHeight/2-g.top)-S*localY;
  const home=g.atlas.querySelector(".home");
  const anatomy=g.atlas.querySelector(".anatomy");
  if(home){
    home.style.setProperty("opacity","0","important");
-   home.style.removeProperty("transform");
+   home.style.setProperty("transform","none","important");
  }
  if(anatomy){
    anatomy.style.setProperty("opacity","1","important");
@@ -780,7 +843,7 @@ function a3Open(key){
  const atlasEl=document.getElementById("atlas");if(atlasEl?.classList.contains("returning"))return;
  const m=A3_META[key];if(!m)return;
  const dbg=document.getElementById("a3DebugReadout");
- if(dbg)dbg.textContent="TAP → "+key+" / "+m.name+" | controller=v50";
+ if(dbg)dbg.textContent="TAP → "+key+" / "+m.name+" | controller=v54";
  a3ApplyZoom(key);
  area=m.area; structure=""; sub="";
  const tagEl=document.getElementById("tag");
@@ -826,6 +889,7 @@ function resetAtlas(){
    at.dataset.zoomed="";
    const hitLayer=at.querySelector(".a3-hitlayer");if(hitLayer)hitLayer.style.pointerEvents="auto";
    a3PositionHitLayer();
+   a3PositionImageLayers();
  };
  if(at){
    const home=at.querySelector(".home"),anatomy=at.querySelector(".anatomy");
@@ -866,11 +930,12 @@ function a3Install(){
  });
  at.appendChild(lay);
  a3PositionHitLayer();
+ a3PositionImageLayers();
  document.getElementById("a3Shade").onclick=a3Close;
  document.getElementById("a3Close").onclick=a3Close;
  document.getElementById("a3Body").onclick=e=>{const b=e.target.closest("[data-a3item]");if(b)a3Select(b.dataset.a3item)};
  if(new URLSearchParams(location.search).get("debug")==="1")document.body.classList.add("a3-debug");
- window.addEventListener("resize",a3PositionHitLayer,{passive:true});
+ window.addEventListener("resize",()=>{a3PositionHitLayer();a3PositionImageLayers();},{passive:true});
  window.a3Verify=()=>{
    const g=a3ContainRect(),back=document.getElementById("backToWhole");
    const zones={};
@@ -958,4 +1023,27 @@ function exportVisibleCSV(){
  <div class="a3-pophead"><div><small>ANATOMICAL INDEX</small><h3 id="a3Title">部位を選択</h3></div><button type="button" id="a3Close">×</button></div>
  <div id="a3Body"></div>
 </section>
+
+
+
+
+
+
+
+<script id="v54-background-guard">
+(()=> {
+ const keepBackground=()=>{
+   const p=document.querySelector('#atlas .atlasPaper');
+   if(!p)return;
+   p.style.setProperty('transform','none','important');
+ };
+ keepBackground();
+ window.addEventListener('resize',keepBackground,{passive:true});
+ const atlas=document.getElementById('atlas');
+ if(atlas){
+   new MutationObserver(keepBackground).observe(atlas,{attributes:true,subtree:true,attributeFilter:['class','style']});
+ }
+})();
+</script>
+
 </body></html>

@@ -1,0 +1,27 @@
+V54 BACKGROUND PRESERVATION FIX
+Date: 2026-09-16
+
+Correction
+- Removed the v53 CSS that assigned home_atlas.png to atlasPaper as a new CSS background.
+- Restored the separation of responsibilities:
+  atlasPaper = existing/stable background layer
+  home       = HOME foreground figure
+  anatomy    = COLOR foreground figure
+- atlasPaper is explicitly protected from transforms.
+- HOME remains non-zooming.
+- Only COLOR anatomy is permitted to receive the zoom transform.
+
+Retained from v53
+- corrected 1024x1536 contain-coordinate surface
+- corrected head/neck/body hit alignment
+- corrected local-coordinate zoom calculation
+- full-width Simple Display
+- 630-record MASTER
+- CSV export
+- anatomy popup taxonomy
+
+Static verification
+- JavaScript syntax checked with node --check
+- duplicate HTML IDs checked
+- v53 erroneous background-image injection is absent
+- home_atlas.png and anatomy_color.png remain packaged

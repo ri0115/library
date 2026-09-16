@@ -1,0 +1,17 @@
+V52 SIMPLE SEARCH
+Goal: reduce cognitive load.
+
+Changes
+- Removed the multi-axis CROSS SEARCH control panel introduced in v51.
+- Kept one primary search field only.
+- Search placeholder now explicitly covers guideline / disease / specialty / body region.
+- Added only seven lightweight example shortcuts.
+- Added a single clear button.
+- Anatomy map remains the visual/body-region route.
+- Library-only mode remains the dense catalogue route.
+- CSV export retained.
+- No anatomy coordinates or database records changed.
+
+Design rule going forward:
+Do not create separate controls for functions that the same free-text search can already perform.
+Progressive disclosure over permanent panels.
