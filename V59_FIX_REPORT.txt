@@ -1,0 +1,6 @@
+V59 CODE DISPLAY FIX
+- Previous CSS targeted only some assumed code classes; actual rendered code could remain.
+- Expanded simple-mode selectors for ID/code fields.
+- Added runtime cleanup for rendered leaf cells whose content is exactly GL-JP-<number>.
+- Code is hidden only from browsing UI; underlying database IDs remain intact.
+- v58 parchment background restoration and top quickSearch removal retained.

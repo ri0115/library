@@ -1,0 +1,13 @@
+V58 REGRESSION FIX
+
+Confirmed cause:
+- The fixed atlas background had regressed to home_atlas.png.
+- The redundant top search was not .routeSearch; it was the separate .uxbar / #quickSearch block.
+
+Fix:
+- Restored the dedicated parchment_fixed.jpg background asset from the packaged stable v31 asset.
+- atlasPaper now uses parchment_fixed.jpg and is forced visible/fixed.
+- Removed the complete top uxbar/quickSearch block from the DOM.
+- Main catalogue search #q remains.
+- Simple mode code hiding from v57 remains.
+- 630-record database and anatomy coordinates unchanged.

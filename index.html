@@ -250,8 +250,8 @@ body.a3-debug .a3-debug-readout{display:block}
  position:absolute;inset:0;z-index:0;pointer-events:none;
  background:
    linear-gradient(rgba(226,204,158,.18),rgba(193,154,92,.14)),
-   url("home_atlas.png") center/cover no-repeat;
- filter:none;
+   url("parchment_fixed.jpg") center/cover no-repeat;
+ filter:sepia(.18) saturate(.78);
  transform:none!important;
 }
 .atlas .layer{z-index:2}
@@ -509,15 +509,167 @@ body.library-only .catalog>.brand{margin-bottom:10px!important}
 }
 </style>
 
-</head><body data-build="v54-background-preserved"><div class="viewModeSwitch" role="group" aria-label="表示モード">
+
+<style id="v55-navigation-ux-fix">
+/* Remove the redundant top search strip; retain catalogue search. */
+.routeSearch{display:none!important}
+
+/* Desktop: keep anatomy return control visually attached to the anatomy stage. */
+@media(min-width:901px){
+  #atlas .a3-back,
+  #atlas #a3Back,
+  #atlas .backToWhole{
+    position:absolute!important;
+    left:18px!important;
+    top:18px!important;
+    right:auto!important;
+    bottom:auto!important;
+    z-index:80!important;
+  }
+}
+
+/* During anatomy zoom, navigation is screen/stage anchored rather than transformed with anatomy. */
+#atlas .a3-hitlayer,
+#atlas .a3-zone-nav,
+#atlas .a3-nav-overlay{
+  transform:none!important;
+}
+
+/* Catalogue/detail back button must stay obvious while reading a record. */
+.detailBack,.catalogBack,#detailBack,#catalogBack,.backBtn[data-action="back"]{
+  position:sticky!important;
+  top:10px!important;
+  z-index:140!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  gap:6px!important;
+  min-height:38px!important;
+  padding:8px 12px!important;
+  background:rgba(244,232,202,.96)!important;
+  border:1px solid rgba(72,49,25,.45)!important;
+  box-shadow:0 3px 12px rgba(42,27,13,.14)!important;
+}
+
+/* If the existing detail view has no dedicated back class, the injected button below is used. */
+#v55DetailBack{
+  position:fixed;left:14px;top:72px;z-index:220;
+  display:none;align-items:center;gap:7px;
+  min-height:40px;padding:8px 13px;
+  border:1px solid rgba(72,49,25,.5);
+  background:rgba(245,233,202,.97);
+  color:inherit;font:inherit;font-size:12px;cursor:pointer;
+  box-shadow:0 4px 16px rgba(42,27,13,.18)
+}
+body.v55-detail-open #v55DetailBack{display:inline-flex}
+@media(max-width:900px){
+ #v55DetailBack{left:10px;top:62px}
+}
+</style>
+
+
+<style id="v56-simple-ledger-polish">
+/* SIMPLE MODE: compact horizontal metadata. IDs/codes are secondary information. */
+body.library-only .ledger-row,
+body.library-only .catalog-card,
+body.library-only .guideline-card{
+  writing-mode:horizontal-tb!important;
+  text-orientation:mixed!important;
+}
+body.library-only .ledger-row *{
+  writing-mode:horizontal-tb!important;
+  text-orientation:mixed!important;
+}
+body.library-only .ledger-id,
+body.library-only .guideline-id,
+body.library-only .code,
+body.library-only [data-field="id"]{
+  writing-mode:horizontal-tb!important;
+  white-space:nowrap!important;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace!important;
+  font-size:8px!important;
+  letter-spacing:-.03em!important;
+  opacity:.34!important;
+  max-width:86px!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+
+/* References are useful when evaluating a record: give them more visual weight. */
+.reference,.references,.referenceBlock,.ref-block,.sources,.source-links{
+  font-size:13px!important;
+  line-height:1.65!important;
+}
+.reference a,.references a,.referenceBlock a,.ref-block a,.sources a,.source-links a{
+  font-size:13px!important;
+  line-height:1.65!important;
+  text-decoration-thickness:1px!important;
+  text-underline-offset:3px!important;
+}
+
+/* Specialty color is deliberately subtle: a 4px ledger-edge marker, not a full colored card. */
+body.library-only .ledger-row,
+body.library-only .catalog-card,
+body.library-only .guideline-card{
+  border-left:4px solid var(--v56-specialty,rgba(96,75,47,.32))!important;
+}
+</style>
+
+
+<style id="v57-hide-codes">
+/* Simple mode: internal IDs/codes are implementation metadata, not browsing information. */
+body.library-only .ledger-id,
+body.library-only .guideline-id,
+body.library-only .code,
+body.library-only [data-field="id"]{
+  display:none!important;
+}
+</style>
+
+
+<style id="v58-regression-fix">
+.uxbar{display:none!important}
+#atlas .atlasPaper{
+  display:block!important;
+  opacity:1!important;
+  visibility:visible!important;
+  background:
+    linear-gradient(rgba(226,204,158,.18),rgba(193,154,92,.14)),
+    url("parchment_fixed.jpg") center/cover no-repeat!important;
+  filter:sepia(.18) saturate(.78)!important;
+  transform:none!important;
+}
+</style>
+
+<style id="v59-code-column-removal">
+/* Simple/library mode: internal guideline codes are never browsing content. */
+body.library-only .ledger-id,
+body.library-only .guideline-id,
+body.library-only .code,
+body.library-only .record-code,
+body.library-only .gl-code,
+body.library-only [data-field="id"],
+body.library-only [data-field="code"],
+body.library-only [data-col="id"],
+body.library-only [data-col="code"],
+body.library-only [class*="guidelineCode"],
+body.library-only [class*="guideline-code"]{
+  display:none!important;
+  width:0!important;
+  min-width:0!important;
+  max-width:0!important;
+  padding:0!important;
+  margin:0!important;
+  border:0!important;
+  overflow:hidden!important;
+}
+</style>
+
+</head><button id="v55DetailBack" type="button" aria-label="蔵書一覧へ戻る">← 蔵書一覧へ戻る</button>
+<body data-build="v59-code-column-removed"><div class="viewModeSwitch" role="group" aria-label="表示モード">
 <button type="button" id="modeAtlasBtn" class="active" onclick="setViewMode('atlas')">人体＋蔵書</button>
 <button type="button" id="modeLibraryBtn" onclick="setViewMode('library')">シンプル表示</button><button type="button" id="csvExportBtn" onclick="exportVisibleCSV()" title="現在表示中の蔵書をCSV出力">CSV出力</button>
 </div>
-<div class="uxbar"><div class="uxinner">
-<input id="quickSearch" placeholder="ガイドライン名・疾患・学会名を検索" oninput="syncQuickSearch(this.value)">
-<button class="uxbtn mobileFilterBtn" onclick="toggleMobileFilters()">絞り込み</button>
-<button class="uxbtn" onclick="resetAll()">リセット</button>
-</div><div id="activeFilters" class="activeFilters"></div></div>
+<div id="activeFilters" class="activeFilters" hidden></div>
 <button id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="ページ上部へ">↑</button><div class="app">
 <main class="atlas" id="atlas">
 <div class="atlasPaper" aria-hidden="true"></div>
@@ -843,7 +995,7 @@ function a3Open(key){
  const atlasEl=document.getElementById("atlas");if(atlasEl?.classList.contains("returning"))return;
  const m=A3_META[key];if(!m)return;
  const dbg=document.getElementById("a3DebugReadout");
- if(dbg)dbg.textContent="TAP → "+key+" / "+m.name+" | controller=v54";
+ if(dbg)dbg.textContent="TAP → "+key+" / "+m.name+" | controller=v57";
  a3ApplyZoom(key);
  area=m.area; structure=""; sub="";
  const tagEl=document.getElementById("tag");
@@ -1043,6 +1195,116 @@ function exportVisibleCSV(){
  if(atlas){
    new MutationObserver(keepBackground).observe(atlas,{attributes:true,subtree:true,attributeFilter:['class','style']});
  }
+})();
+</script>
+
+
+<script id="v55-navigation-guard">
+(()=> {
+ const atlas=document.getElementById('atlas');
+ const anatomy=atlas&&atlas.querySelector('.anatomy');
+ const home=atlas&&atlas.querySelector('.home');
+
+ /* Critical fix: switching from one body region to another must not compound
+    transforms or navigate in the already-zoomed coordinate system. */
+ if(atlas){
+   atlas.addEventListener('click',e=>{
+     const zone=e.target.closest('[data-a3zone]');
+     if(!zone)return;
+     if(anatomy){
+       anatomy.style.setProperty('transform','none','important');
+       anatomy.style.setProperty('transform-origin','0 0','important');
+     }
+   },true);
+ }
+
+ const back=document.getElementById('v55DetailBack');
+ if(!back)return;
+
+ const visible=el=>{
+   if(!el)return false;
+   const cs=getComputedStyle(el);
+   return cs.display!=='none'&&cs.visibility!=='hidden'&&parseFloat(cs.opacity||1)>0;
+ };
+ const findDetail=()=>[
+   document.querySelector('.detail.open'),
+   document.querySelector('.detail.is-open'),
+   document.querySelector('.detail[aria-hidden="false"]'),
+   document.querySelector('.modal.open'),
+   document.querySelector('.modal.show'),
+   document.querySelector('[role="dialog"]:not([aria-hidden="true"])')
+ ].find(visible);
+
+ const sync=()=>document.body.classList.toggle('v55-detail-open',!!findDetail());
+ new MutationObserver(()=>requestAnimationFrame(sync)).observe(document.body,{
+   subtree:true,attributes:true,childList:true,attributeFilter:['class','style','aria-hidden']
+ });
+ sync();
+
+ back.onclick=()=>{
+   const d=findDetail();
+   if(d){
+     const native=d.querySelector('.close,.back,.detailBack,[data-close],[aria-label*="戻"],[aria-label*="閉"]');
+     if(native){native.click();return;}
+   }
+   history.back();
+ };
+})();
+</script>
+
+
+<script id="v56-specialty-ledger-js">
+(()=> {
+ const palette={
+  '整形':'#7b6652','骨':'#7b6652','リウマチ':'#7b6652',
+  '循環':'#8a5d57','心':'#8a5d57',
+  '消化':'#8b744c','肝':'#8b744c','胆':'#8b744c','膵':'#8b744c',
+  '呼吸':'#65777a','肺':'#65777a',
+  '脳':'#6d687d','神経':'#6d687d',
+  '小児':'#8a766f','新生児':'#8a766f',
+  '産婦':'#8a6874','婦人':'#8a6874',
+  '泌尿':'#63727d','腎':'#63727d',
+  '皮膚':'#7d6f5d',
+  '眼':'#66756a','耳鼻':'#66756a',
+  '歯':'#766b62','口腔':'#766b62',
+  '精神':'#706b78',
+  '救急':'#765b50','集中治療':'#765b50',
+  'がん':'#775b68','腫瘍':'#775b68'
+ };
+ const rows=()=>[...document.querySelectorAll('.ledger-row,.catalog-card,.guideline-card')];
+ const paint=()=>{
+   rows().forEach(el=>{
+     const t=(el.dataset.specialty||el.textContent||'');
+     let c='';
+     for(const [k,v] of Object.entries(palette)){if(t.includes(k)){c=v;break;}}
+     if(c)el.style.setProperty('--v56-specialty',c);
+   });
+ };
+ paint();
+ new MutationObserver(()=>requestAnimationFrame(paint)).observe(document.body,{subtree:true,childList:true});
+})();
+</script>
+
+
+<script id="v59-code-runtime-removal">
+(()=> {
+ const codeRe=/^GL-JP-\d+$/i;
+ const clean=()=>{
+   if(!document.body.classList.contains('library-only')) return;
+   const root=document.querySelector('.catalogue,.catalog,.library,.results,#results,#catalogue')||document;
+   root.querySelectorAll('*').forEach(el=>{
+     if(el.children.length) return;
+     const t=(el.textContent||'').trim();
+     if(codeRe.test(t)){
+       el.style.setProperty('display','none','important');
+       el.setAttribute('aria-hidden','true');
+     }
+   });
+ };
+ clean();
+ new MutationObserver(()=>requestAnimationFrame(clean)).observe(document.body,{
+   subtree:true,childList:true,attributes:true,attributeFilter:['class']
+ });
 })();
 </script>
 
