@@ -1,0 +1,19 @@
+v23 — ANATOMY MAP 3.0
+
+人体ズーム/タップ機能を白紙から独立再実装。
+旧 .map / .zone / .routeZone / regionHit は display:none + pointer-events:none。
+新機能は a3-* 名前空間のみを使用し、旧openRoute/focusAreaを一切呼ばない。
+
+7領域:
+頭 / 首 / 胸部 / 上肢（肩〜手） / 腹部 / 骨盤・股関節 / 下肢（大腿〜足）
+
+重要:
+・透明タップレイヤーは絶対にtransformしない
+・画像layerだけをズーム
+・骨盤は57–66%、下肢は66%以下で非重複
+・上肢は肩から手まで左右別
+・?debug=1 で新タップ領域のみ可視化
+・JavaScript syntax check OK
+
+詳細画面:
+蔵書カードの外部リンクをREFERENCEスタンプ風ボタンへ再デザイン。
