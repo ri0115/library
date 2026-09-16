@@ -200,6 +200,18 @@ body.a3-debug .a3-hit:after{content:attr(aria-label);font:700 10px sans-serif;ba
 .detailLinksV22 a:before{content:"REFERENCE";position:absolute;right:10px;top:6px;font:700 7px Georgia,serif;letter-spacing:.13em;opacity:.35}
 .detailLinksV22 a:after{content:"↗";position:absolute;right:14px;bottom:8px;font-size:18px}
 .detailLinksV22 a:active{transform:translateY(1px);box-shadow:inset 0 0 0 3px rgba(255,244,211,.22)!important}
+
+/* =========================================================
+   v24 CONFIRMED IMAGE-COORDINATE ANATOMY MAP
+   Source anatomy image: 1024 x 1536
+   ========================================================= */
+.a3-hitlayer{position:absolute!important;z-index:50!important;pointer-events:none!important}
+.a3-hit{position:absolute!important;display:block!important;pointer-events:auto!important;border:0!important;background:transparent!important;touch-action:manipulation!important}
+body.a3-debug .a3-hit{background:rgba(140,68,24,.20)!important;outline:2px solid rgba(80,38,12,.8)!important}
+
+/* Only image layers move. Coordinate hit layer is fixed to rendered image bounds. */
+.atlas.a3-zoom .layer{transform-origin:0 0!important;transition:transform .45s cubic-bezier(.2,.72,.2,1)!important}
+.a3-hitlayer{transform:none!important}
 </style></head><body>
 <div class="uxbar"><div class="uxinner">
 <input id="quickSearch" placeholder="ガイドライン名・疾患・学会名を検索" oninput="syncQuickSearch(this.value)">
@@ -411,27 +423,60 @@ function decorateDetailCard(){
 }
 document.addEventListener("click",()=>setTimeout(decorateDetailCard,0));
 
-/* v23 ANATOMY 3.0 — independent controller */
-const A3={
- head:{name:"頭",z:[3.15,"0%","37%"],groups:{"頭部":["脳・脳血管","眼","耳","鼻・副鼻腔","口腔・歯科","顎・顔面","頭部外傷"]}},
- neck:{name:"首",z:[3.00,"0%","28%"],groups:{"頸部":["頸椎・脊髄","甲状腺・副甲状腺","咽頭・喉頭","頸部血管","唾液腺","頸部リンパ節・腫瘤"]}},
- chest:{name:"胸部",z:[2.30,"0%","15%"],groups:{"胸部":["肺・気管支","心臓","冠動脈・大血管","乳腺","食道","縦隔","胸椎・脊髄","胸壁・肋骨"]}},
- upper:{name:"上肢（肩〜手）",z:[1.58,"0%","7%"],groups:{"上肢":["肩","上腕","肘","前腕","手・手関節","末梢神経","腱・靱帯","上肢外傷"]}},
- abdomen:{name:"腹部",z:[2.48,"0%","-2%"],groups:{"腹部":["肝臓","胆嚢・胆道","膵臓","胃・十二指腸","小腸","大腸","腎臓・副腎","脾臓","腹壁・ヘルニア","腰椎・脊髄"]}},
- pelvis:{name:"骨盤・股関節",z:[2.72,"0%","-22%"],groups:{"骨盤・陰部":["膀胱・尿路","前立腺","子宮","卵巣・付属器","直腸・肛門","陰部・骨盤臓器","股関節"]}},
- lower:{name:"下肢（大腿〜足）",z:[1.58,"0%","-26%"],groups:{"下肢":["大腿","膝","下腿","足関節","足・足趾","末梢神経","腱・靱帯","下肢血管","下肢外傷"]}}
+/* v24 CONFIRMED IMAGE-COORDINATE CONTROLLER */
+const A3_IMG={w:1024,h:1536};
+const A3_ZONES={
+ head:{name:"頭",box:[405,10,620,185],scale:3.0,groups:{"頭部":["脳・脳血管","眼","耳","鼻・副鼻腔","口腔・歯科","顎・顔面","頭部外傷"]}},
+ neck:{name:"首",box:[405,185,620,275],scale:2.8,groups:{"頸部":["頸椎・脊髄","甲状腺・副甲状腺","咽頭・喉頭","頸部血管","唾液腺","頸部リンパ節・腫瘤"]}},
+ chest:{name:"胸部",box:[340,275,680,410],scale:2.5,groups:{"胸部":["肺・気管支","心臓","冠動脈・大血管","乳腺","食道","縦隔","胸椎・脊髄","胸壁・肋骨"]}},
+ abdomen:{name:"腹部",box:[350,410,675,675],scale:2.5,groups:{"腹部":["肝臓","胆嚢・胆道","膵臓","胃・十二指腸","小腸","大腸","腎臓・副腎","脾臓","腹壁・ヘルニア","腰椎・脊髄"]}},
+ pelvis:{name:"骨盤・股関節",box:[335,675,690,810],scale:2.8,groups:{"骨盤・陰部":["膀胱・尿路","前立腺","子宮","卵巣・付属器","直腸・肛門","陰部・骨盤臓器","股関節"]}},
+ upperL:{name:"上肢（肩〜手）",area:"upper",box:[65,245,350,925],scale:1.75,groups:{"上肢":["肩","上腕","肘","前腕","手・手関節","末梢神経","腱・靱帯","上肢外傷"]}},
+ upperR:{name:"上肢（肩〜手）",area:"upper",box:[675,245,960,925],scale:1.75,groups:{"上肢":["肩","上腕","肘","前腕","手・手関節","末梢神経","腱・靱帯","上肢外傷"]}},
+ lowerL:{name:"下肢（大腿〜足）",area:"lower",box:[330,810,510,1520],scale:1.65,groups:{"下肢":["大腿","膝","下腿","足関節","足・足趾","末梢神経","腱・靱帯","下肢血管","下肢外傷"]}},
+ lowerR:{name:"下肢（大腿〜足）",area:"lower",box:[510,810,700,1520],scale:1.65,groups:{"下肢":["大腿","膝","下腿","足関節","足・足趾","末梢神経","腱・靱帯","下肢血管","下肢外傷"]}}
 };
-function a3Open(key,side=""){
- const r=A3[key],at=document.querySelector(".atlas"); if(!r||!at)return;
- // visual state only; no legacy route function is invoked
- at.classList.add("reveal","a3-zoom");
- let x=r.z[1]; if(key==="upper"&&side==="L")x="15%"; if(key==="upper"&&side==="R")x="-15%";
- at.style.setProperty("--a3s",r.z[0]);at.style.setProperty("--a3x",x);at.style.setProperty("--a3y",r.z[2]);
- // reset previous DB anatomical selection before showing a new index
- if(typeof area!=="undefined")area=key;if(typeof structure!=="undefined")structure="";if(typeof sub!=="undefined")sub="";
- const tagEl=document.getElementById("tag");if(tagEl)tagEl.textContent=r.name+" — 解剖構造を選択";
- a3Title.textContent=r.name+" — INDEX";
- a3Body.innerHTML=Object.entries(r.groups).map(([g,a])=>`<div class="a3-group"><div class="a3-group-label">${g}</div><div class="a3-options">${a.map(v=>`<button type="button" data-a3item="${v}">${v}</button>`).join("")}</div></div>`).join("");
+function a3RenderedImageRect(){
+ const at=document.querySelector(".atlas");
+ const img=at?.querySelector(".layer img")||at?.querySelector("img");
+ if(!at||!img)return null;
+ const ar=at.getBoundingClientRect();
+ // object-fit:cover is used by the site. Calculate the actual 1024x1536 image mapping.
+ const scale=Math.max(ar.width/A3_IMG.w,ar.height/A3_IMG.h);
+ const rw=A3_IMG.w*scale,rh=A3_IMG.h*scale;
+ return {atlas:at,left:(ar.width-rw)/2,top:(ar.height-rh)/2,width:rw,height:rh,unit:scale};
+}
+function a3PositionHitLayer(){
+ const g=a3RenderedImageRect(); if(!g)return;
+ const lay=g.atlas.querySelector(".a3-hitlayer");if(!lay)return;
+ lay.style.left=g.left+"px";lay.style.top=g.top+"px";lay.style.width=g.width+"px";lay.style.height=g.height+"px";lay.style.right="auto";lay.style.bottom="auto";
+ lay.querySelectorAll("[data-a3zone]").forEach(b=>{
+   const z=A3_ZONES[b.dataset.a3zone],q=z.box;
+   b.style.left=(q[0]/A3_IMG.w*100)+"%";b.style.top=(q[1]/A3_IMG.h*100)+"%";
+   b.style.width=((q[2]-q[0])/A3_IMG.w*100)+"%";b.style.height=((q[3]-q[1])/A3_IMG.h*100)+"%";
+ });
+}
+function a3ApplyZoom(key){
+ const z=A3_ZONES[key],g=a3RenderedImageRect();if(!z||!g)return;
+ const cx=(z.box[0]+z.box[2])/2,cy=(z.box[1]+z.box[3])/2;
+ // Convert confirmed image-space center to the currently rendered atlas coordinate.
+ const px=g.left+cx*g.unit,py=g.top+cy*g.unit;
+ const vw=g.atlas.clientWidth,vh=g.atlas.clientHeight,S=z.scale;
+ // Translate after scaling so selected center lands exactly at viewport center.
+ const tx=vw/2-S*px,ty=vh/2-S*py;
+ g.atlas.classList.add("reveal","a3-zoom");
+ g.atlas.querySelectorAll(".layer").forEach(el=>el.style.transform=`translate(${tx}px,${ty}px) scale(${S})`);
+}
+function a3Open(key){
+ const z=A3_ZONES[key];if(!z)return;
+ a3ApplyZoom(key);
+ const areaKey=z.area||key;
+ if(typeof area!=="undefined")area=areaKey;
+ if(typeof structure!=="undefined")structure="";
+ if(typeof sub!=="undefined")sub="";
+ const tagEl=document.getElementById("tag");if(tagEl)tagEl.textContent=z.name+" — 解剖構造を選択";
+ a3Title.textContent=z.name+" — INDEX";
+ a3Body.innerHTML=Object.entries(z.groups).map(([g,a])=>`<div class="a3-group"><div class="a3-group-label">${g}</div><div class="a3-options">${a.map(v=>`<button type="button" data-a3item="${v}">${v}</button>`).join("")}</div></div>`).join("");
  a3Shade.classList.add("open");a3Popup.classList.add("open");a3Popup.setAttribute("aria-hidden","false");
  if(typeof render==="function")render();
 }
@@ -444,14 +489,14 @@ function a3Select(label){
 }
 function a3Install(){
  const at=document.querySelector(".atlas");if(!at)return;
- const old=at.querySelector(".a3-hitlayer");if(old)old.remove();
+ at.querySelectorAll(".a3-hitlayer").forEach(x=>x.remove());
  const lay=document.createElement("div");lay.className="a3-hitlayer";
- const hits=[["head","a3-head",""],["neck","a3-neck",""],["chest","a3-chest",""],["upper","a3-armL","L"],["upper","a3-armR","R"],["abdomen","a3-abdomen",""],["pelvis","a3-pelvis",""],["lower","a3-lowerL",""],["lower","a3-lowerR",""]];
- hits.forEach(([k,c,side])=>{const b=document.createElement("button");b.type="button";b.className="a3-hit "+c;b.setAttribute("aria-label",A3[k].name);b.onclick=e=>{e.preventDefault();e.stopPropagation();a3Open(k,side)};lay.appendChild(b)});
- at.appendChild(lay);
- a3Shade.onclick=a3Close;a3CloseBtn=document.getElementById("a3Close");a3CloseBtn.onclick=a3Close;
+ Object.keys(A3_ZONES).forEach(k=>{const z=A3_ZONES[k],b=document.createElement("button");b.type="button";b.className="a3-hit";b.dataset.a3zone=k;b.setAttribute("aria-label",z.name);b.onclick=e=>{e.preventDefault();e.stopPropagation();a3Open(k)};lay.appendChild(b)});
+ at.appendChild(lay);a3PositionHitLayer();
+ a3Shade.onclick=a3Close;document.getElementById("a3Close").onclick=a3Close;
  a3Body.onclick=e=>{const b=e.target.closest("[data-a3item]");if(b)a3Select(b.dataset.a3item)};
  if(new URLSearchParams(location.search).get("debug")==="1")document.body.classList.add("a3-debug");
+ window.addEventListener("resize",a3PositionHitLayer,{passive:true});
 }
 document.addEventListener("DOMContentLoaded",a3Install);
 </script>
