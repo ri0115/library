@@ -1,0 +1,27 @@
+v31 DESIGN / MOTION AUDIT
+
+Base: v30 FULL AUDIT
+Important: approved A3_HOME_RECTS, A3_COLOR_TARGETS and A3_META were byte-for-byte preserved.
+
+Changes
+1. Fixed parchment background layer added (parchment_fixed.jpg).
+   It never receives the anatomy transform, so zooming no longer changes/moves the background.
+2. Return animation changed to two stages:
+   0–720ms: color anatomy glides from zoom transform to full-body transform.
+   720–1000ms: HOME classical figure crossfades in; color figure fades out.
+   Background remains fixed throughout.
+3. Re-taps are blocked during the returning animation.
+4. Site masthead enlarged and redesigned as a classical reference-library title plate.
+5. Catalogue search bar forced into normal document flow (position:relative; top:auto) with mobile width guards,
+   preventing it from overlaying the title/body when viewport/browser chrome changes.
+6. Each result redesigned as an old library catalogue card:
+   accession strip / Mincho title / bibliographic metadata / REFERENCE stamp.
+7. No data, filters, anatomy hit coordinates, color zoom targets, or anatomy taxonomy changed.
+
+Verification
+- JavaScript node --check: OK
+- duplicate HTML ids: 0
+- duplicate named functions: 0
+- A3_HOME_RECTS unchanged: OK
+- A3_COLOR_TARGETS unchanged: OK
+- A3_META unchanged: OK

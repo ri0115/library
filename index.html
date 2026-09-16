@@ -243,7 +243,102 @@ body.a3-debug .a3-debug-readout{display:block}
 .anatomy{opacity:0;mix-blend-mode:normal!important}
 .atlas.reveal .home{opacity:0!important}
 .atlas.reveal .anatomy{opacity:1!important}
-</style></head><body data-build="v30-full-audit">
+
+/* ================= v31 LIBRARY DESIGN / STABLE ANATOMY ================= */
+:root{--paper-deep:#d8b878;--ink-deep:#2f2117;--wine:#6b3028;--header-safe:118px}
+.atlasPaper{
+ position:absolute;inset:0;z-index:0;pointer-events:none;
+ background:
+   linear-gradient(rgba(226,204,158,.18),rgba(193,154,92,.14)),
+   url("parchment_fixed.jpg") center/cover no-repeat;
+ filter:sepia(.18) saturate(.78);
+ transform:none!important;
+}
+.atlas .layer{z-index:2}
+.atlas .home,.atlas .anatomy{
+ transition:opacity .28s ease,transform .72s cubic-bezier(.22,.72,.18,1)!important;
+}
+.atlas.returning .anatomy{
+ transition:transform .72s cubic-bezier(.16,.72,.18,1),opacity .28s ease!important;
+}
+.atlas.returning .home{transition:opacity .28s ease!important}
+.atlas .tag,.atlas .back,.atlas .catalogBtn,.atlas .a3-debug-readout{position:absolute}
+
+/* library masthead */
+.catalog>.brand{
+ position:relative;
+ margin:0 0 18px;padding:16px 12px 14px!important;
+ border-top:3px double rgba(65,42,24,.75);
+ border-bottom:1px solid rgba(65,42,24,.5);
+ text-align:center;
+ font:700 clamp(22px,2.1vw,32px)/1.02 Georgia,"Times New Roman",serif;
+ letter-spacing:.13em;color:var(--ink-deep);
+ text-shadow:0 1px rgba(255,247,220,.65);
+}
+.catalog>.brand::before{content:"EST. 2026  •  REFERENCE ARCHIVE";display:block;margin-bottom:7px;font:600 8px/1.2 Georgia,serif;letter-spacing:.28em;opacity:.62}
+.catalog>.brand small{display:block;margin-top:8px;font-family:"Yu Mincho","Hiragino Mincho ProN",serif;font-size:.55em;letter-spacing:.18em;font-weight:700}
+
+/* Search stays in normal catalogue flow: never overlays the atlas/content. */
+.catalog>.search{
+ position:relative!important;top:auto!important;z-index:30;
+ margin:0 0 10px;min-height:46px;
+ box-shadow:0 4px 10px rgba(67,42,20,.10);
+}
+.catalog>.search input{min-width:0;font-size:14px;padding:11px 12px}
+.catalog>.search button{min-width:64px;font-family:"Yu Mincho",serif;font-weight:700}
+
+/* old-library catalogue cards */
+.results{padding-top:4px}
+.card{
+ position:relative;display:grid;grid-template-columns:42px minmax(0,1fr) auto;gap:10px;
+ align-items:stretch;margin:8px 0;padding:0!important;overflow:hidden;
+ border:1px solid rgba(82,55,31,.45)!important;border-radius:2px;
+ background:
+   linear-gradient(90deg,rgba(100,65,35,.07) 0 42px,transparent 42px),
+   linear-gradient(180deg,#ecd5a7,#e5c996);
+ box-shadow:0 2px 0 rgba(255,245,213,.35) inset,0 3px 8px rgba(60,38,19,.08);
+}
+.card:hover{background:linear-gradient(90deg,rgba(100,65,35,.09) 0 42px,transparent 42px),linear-gradient(180deg,#f0dab0,#e8cd9b)!important;transform:translateY(-1px)}
+.cardIndex{
+ display:flex;align-items:center;justify-content:center;padding:7px 4px;
+ border-right:1px dashed rgba(79,51,29,.34);
+ writing-mode:vertical-rl;text-orientation:mixed;
+ font:700 8px/1 Georgia,serif;letter-spacing:.09em;opacity:.55;
+}
+.cardBody{min-width:0;padding:11px 0 10px}
+.card .title{font-family:"Yu Mincho","Hiragino Mincho ProN",serif;font-size:14px!important;line-height:1.55!important;font-weight:700;color:#332218}
+.card .meta{margin-top:6px!important;font-size:10px!important;line-height:1.45!important;letter-spacing:.025em;color:rgba(57,38,23,.72)!important}
+.metaSep{padding:0 5px;opacity:.45}
+.cardStamp{
+ align-self:center;min-width:78px;margin:9px 9px 9px 0;padding:5px 6px;
+ border:1px solid rgba(107,48,40,.52);transform:rotate(-1deg);
+ text-align:center;color:rgba(91,42,35,.82);background:rgba(239,214,169,.28);
+}
+.cardStamp span{display:block;font:700 7px/1 Georgia,serif;letter-spacing:.16em;border-bottom:1px solid rgba(107,48,40,.35);padding-bottom:3px;margin-bottom:4px}
+.cardStamp strong{display:block;font:700 9px/1.25 "Yu Mincho",serif}
+
+/* Keep controls above fixed paper and image layers */
+.a3-hitlayer{z-index:8!important}
+.tag,.back,.catalogBtn{z-index:120!important}
+
+@media(max-width:850px){
+ .catalog>.brand{font-size:clamp(21px,6vw,29px);padding-top:18px!important;margin-top:0}
+ .catalog>.search{position:relative!important;top:auto!important;margin:0 0 12px}
+ .card{grid-template-columns:30px minmax(0,1fr)}
+ .cardIndex{font-size:7px}
+ .cardBody{padding:10px 9px 9px 0}
+ .cardStamp{grid-column:2;margin:0 9px 9px 0;justify-self:start;min-width:92px}
+ .card .title{font-size:15px!important}
+ .card .meta{font-size:11px!important}
+}
+@media(max-width:520px){
+ .catalog>.brand{letter-spacing:.08em}
+ .catalog>.brand small{letter-spacing:.12em}
+ .catalog>.search{display:grid;grid-template-columns:minmax(0,1fr) 62px;width:100%;box-sizing:border-box}
+ .catalog>.search input{width:100%;box-sizing:border-box}
+}
+
+</style></head><body data-build="v31-library-design">
 <div class="uxbar"><div class="uxinner">
 <input id="quickSearch" placeholder="ガイドライン名・疾患・学会名を検索" oninput="syncQuickSearch(this.value)">
 <button class="uxbtn mobileFilterBtn" onclick="toggleMobileFilters()">絞り込み</button>
@@ -251,6 +346,7 @@ body.a3-debug .a3-debug-readout{display:block}
 </div><div id="activeFilters" class="activeFilters"></div></div>
 <button id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="ページ上部へ">↑</button><div class="app">
 <main class="atlas" id="atlas">
+<div class="atlasPaper" aria-hidden="true"></div>
 <img class="layer home" src="home_atlas.png" alt="古典人体図"><img class="layer anatomy" src="anatomy_color.png" alt="カラー解剖図">
 <div class="tag" id="tag">人体索引 — 部位をタップ</div><button class="catalogBtn" onclick="document.getElementById('q').focus()">蔵書検索</button>
 <div class="a3-debug-readout" id="a3DebugReadout">READY</div><button type="button" class="back" id="backToWhole" onclick="resetAtlas();render();return false;">← 全身へ戻る</button></main>
@@ -389,7 +485,13 @@ function a3AreaName(k){
  const hit=Object.values(A3_META).find(x=>x.area===k);
  return hit?hit.name:k;
 }
-function render(){syncSpecialty();let q=qEl().value.trim(),sp=vals("fSpecialty"),dz=vals("fDisease"),bd=vals("fBody"),org=vals("fOrg"),yr=vals("fYear"),ac=vals("fAccess");let af=[];if(sp)af.push("診療科："+sp);if(dz)af.push("疾患："+dz);if(bd)af.push("部位："+bd);if(yr)af.push("年："+yr);if(ac)af.push("公開："+ac);let arr=DATA.filter(r=>{let t=T(r);let anatomy=anatomyMatch(r,structure);let routeOK=!route||(route==="body"?r.bodyAudit!=="部位不要候補":route==="systemic"?r.bodyAudit==="部位不要候補":true);return(!q||t.includes(q))&&anatomy&&subMatch(r,sub)&&routeOK&&(!sp||r.specialtyLabel===sp)&&(!dz||[r.diseaseCategory,r.diseaseGroup,r.diseases].join(" ").includes(dz))&&(!bd||[r.body,r.bodyRegions].join(" ").includes(bd))&&(!org||r.organization===org)&&(!yr||String(r.year)===yr)&&(!ac||r.accessLabel===ac)});let sm=document.getElementById("sortMode")?.value||"new";arr.sort((a,b)=>sm==="old"?(a.year||0)-(b.year||0):sm==="title"?String(a.title||"").localeCompare(String(b.title||""),"ja"):(b.year||0)-(a.year||0));filterSummary();document.getElementById("heading").textContent=(structure?S[structure].n:"蔵書一覧")+" — "+arr.length+"冊";document.getElementById("crumb").textContent="全身"+(area?" ＞ "+a3AreaName(area):"")+(structure?" ＞ "+S[structure].n:"")+(sub?" ＞ "+sub:"");document.getElementById("subs").innerHTML=structure&&subs[structure]?subs[structure].map(s=>`<button class="${sub===s?'on':''}" onclick="setSub('${s}')">${s}</button>`).join(""):"";document.getElementById("results").innerHTML=arr.map(r=>`<div class="card" onclick="openD('${r.id}')"><div class="title">${esc(r.title)}</div><div class="meta">${esc(r.organization||"")}　${r.year||""}　${esc(r.specialtyLabel||"")}</div><span class="badge">${esc(r.accessLabel||"未確認")}</span>${structure?`<div class="matchwhy">人体索引：${esc(S[structure].n)} に関連</div>`:""}</div>`).join("")||'<p class="hint">該当する蔵書はありません。</p>'}
+function render(){syncSpecialty();let q=qEl().value.trim(),sp=vals("fSpecialty"),dz=vals("fDisease"),bd=vals("fBody"),org=vals("fOrg"),yr=vals("fYear"),ac=vals("fAccess");let af=[];if(sp)af.push("診療科："+sp);if(dz)af.push("疾患："+dz);if(bd)af.push("部位："+bd);if(yr)af.push("年："+yr);if(ac)af.push("公開："+ac);let arr=DATA.filter(r=>{let t=T(r);let anatomy=anatomyMatch(r,structure);let routeOK=!route||(route==="body"?r.bodyAudit!=="部位不要候補":route==="systemic"?r.bodyAudit==="部位不要候補":true);return(!q||t.includes(q))&&anatomy&&subMatch(r,sub)&&routeOK&&(!sp||r.specialtyLabel===sp)&&(!dz||[r.diseaseCategory,r.diseaseGroup,r.diseases].join(" ").includes(dz))&&(!bd||[r.body,r.bodyRegions].join(" ").includes(bd))&&(!org||r.organization===org)&&(!yr||String(r.year)===yr)&&(!ac||r.accessLabel===ac)});let sm=document.getElementById("sortMode")?.value||"new";arr.sort((a,b)=>sm==="old"?(a.year||0)-(b.year||0):sm==="title"?String(a.title||"").localeCompare(String(b.title||""),"ja"):(b.year||0)-(a.year||0));filterSummary();document.getElementById("heading").textContent=(structure?S[structure].n:"蔵書一覧")+" — "+arr.length+"冊";document.getElementById("crumb").textContent="全身"+(area?" ＞ "+a3AreaName(area):"")+(structure?" ＞ "+S[structure].n:"")+(sub?" ＞ "+sub:"");document.getElementById("subs").innerHTML=structure&&subs[structure]?subs[structure].map(s=>`<button class="${sub===s?'on':''}" onclick="setSub('${s}')">${s}</button>`).join(""):"";document.getElementById("results").innerHTML=arr.map(r=>`<div class="card" onclick="openD('${r.id}')">
+<div class="cardIndex">${esc(r.id||"GL")}</div>
+<div class="cardBody"><div class="title">${esc(r.title)}</div>
+<div class="meta">${esc(r.organization||"発行機関未確認")}<span class="metaSep">／</span>${r.year||"—"}<span class="metaSep">／</span>${esc(r.specialtyLabel||"")}</div>
+${structure?`<div class="matchwhy">人体索引：${esc(S[structure].n)} に関連</div>`:""}</div>
+<div class="cardStamp"><span>REFERENCE</span><strong>${esc(r.accessLabel||"未確認")}</strong></div>
+</div>`).join("")||'<p class="hint">該当する蔵書はありません。</p>'}
 function buildFilters(){let spl=unique(DATA.map(r=>r.specialtyLabel));fill("fSpecialty",spl,"診療科：すべて");
 document.getElementById("specialtyChips").innerHTML=spl.map(x=>`<button data-sp="${esc(x)}" onclick="pickSpecialty('${String(x).replace(/'/g,"\\'")}')">${esc(x)}</button>`).join("");fill("fOrg",unique(DATA.map(r=>r.organization)),"発行学会：すべて");fill("fYear",unique(DATA.map(r=>r.year)).sort((a,b)=>b-a),"発行年：すべて");fill("fAccess",unique(DATA.map(r=>r.accessLabel)),"アクセス：すべて");fill("fBody",unique(DATA.flatMap(r=>String(r.body||"").split(";"))),"身体部位：すべて");let ds=unique(DATA.flatMap(r=>String(r.diseases||"").split(";"))).filter(x=>x.length>1);fill("fDisease",ds.slice(0,300),"疾患群：すべて")}
 function unique(a){return [...new Set(a.filter(Boolean))].sort((a,b)=>String(a).localeCompare(String(b),"ja"))}function fill(id,a,first){let e=document.getElementById(id);e.innerHTML=`<option value="">${first}</option>`+a.map(x=>`<option>${esc(x)}</option>`).join("")}
@@ -529,13 +631,14 @@ function a3ApplyZoom(key){
    anatomy.style.setProperty("transform-origin","0 0","important");
    anatomy.style.setProperty("transform",`translate(${tx}px,${ty}px) scale(${S})`,"important");
  }
- g.atlas.classList.add("reveal","a3-zoom");
+ g.atlas.classList.add("reveal","a3-zoom");g.atlas.dataset.zoomed="1";
 }
 
 function a3Open(key){
+ const atlasEl=document.getElementById("atlas");if(atlasEl?.classList.contains("returning"))return;
  const m=A3_META[key];if(!m)return;
  const dbg=document.getElementById("a3DebugReadout");
- if(dbg)dbg.textContent="TAP → "+key+" / "+m.name+" | controller=v28";
+ if(dbg)dbg.textContent="TAP → "+key+" / "+m.name+" | controller=v31";
  a3ApplyZoom(key);
  area=m.area; structure=""; sub="";
  const tagEl=document.getElementById("tag");
@@ -564,10 +667,9 @@ function a3Select(label){
 function resetAtlas(){
  area="";structure="";sub="";
  const at=document.getElementById("atlas");
- if(at){
-   at.classList.remove("reveal","a3-zoom");
-   at.style.removeProperty("--s");at.style.removeProperty("--tx");at.style.removeProperty("--ty");
-   at.style.removeProperty("--atlas-transform");
+ const finish=()=>{
+   if(!at)return;
+   at.classList.remove("reveal","a3-zoom","returning");
    const home=at.querySelector(".home"),anatomy=at.querySelector(".anatomy");
    [home,anatomy].forEach(el=>{
      if(!el)return;
@@ -577,12 +679,33 @@ function resetAtlas(){
    });
    if(home)home.style.setProperty("opacity","1","important");
    if(anatomy)anatomy.style.setProperty("opacity","0","important");
+   at.dataset.zoomed="";
+   a3PositionHitLayer();
+ };
+ if(at){
+   const home=at.querySelector(".home"),anatomy=at.querySelector(".anatomy");
+   const wasZoomed=at.dataset.zoomed==="1";
+   if(wasZoomed && anatomy){
+     at.classList.add("returning");
+     // Stage 1: keep the color figure visible and let the camera glide back to the whole body.
+     anatomy.style.setProperty("opacity","1","important");
+     anatomy.style.setProperty("transform-origin","0 0","important");
+     anatomy.style.setProperty("transform","translate(0px,0px) scale(1)","important");
+     if(home)home.style.setProperty("opacity","0","important");
+     // Stage 2: after landing, crossfade color -> classical figure.
+     window.setTimeout(()=>{
+       if(home)home.style.setProperty("opacity","1","important");
+       if(anatomy)anatomy.style.setProperty("opacity","0","important");
+       window.setTimeout(finish,280);
+     },720);
+   }else{
+     finish();
+   }
  }
  a3Close();
  const tagEl=document.getElementById("tag");
  if(tagEl)tagEl.textContent="人体索引 — 部位をタップ";
- a3PositionHitLayer();
- const dbg=document.getElementById("a3DebugReadout");if(dbg)dbg.textContent="RESET → HOME";
+ const dbg=document.getElementById("a3DebugReadout");if(dbg)dbg.textContent="RESET → HOME | v31";
 }
 
 function a3Install(){
