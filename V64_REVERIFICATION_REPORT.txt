@@ -1,0 +1,85 @@
+V64 RE-VERIFICATION REPORT
+Date: 2026-09-16
+
+IMPORTANT
+No functional code or asset was modified in this re-verification package.
+The v64 files are preserved byte-for-byte.
+
+Static checks
+- Embedded records: 630
+- Database IDs unique: PASS
+- Duplicate HTML IDs: none
+- JavaScript syntax: PASS
+- Main search: 1
+- Legacy quickSearch: 0
+- Advanced search toggle: present
+- Year filter: present
+- Access/free-paid filter: present
+- Simple-view switch: present
+- Detail return button: exactly 1
+- GL internal code not rendered in detail: PASS
+- Specialty color renderer: present
+- Direct #atlas parchment background: present
+- Separate atlasPaper layer: absent
+- Progressive rendering: 100 cards/batch
+- Search debounce: present
+- CSV export: retained
+
+Runtime checks executed in headless Chromium using the full inline HTML
+Desktop viewport: 1440 x 1000
+Mobile viewport: 390 x 844
+
+Both desktop and mobile
+- runtime JS exceptions: 0
+- 630 records loaded: PASS
+- initial catalogue: 100 cards
+- "さらに表示": 100 -> 200 cards
+- main search visible: PASS
+- old top quickSearch absent: PASS
+- advanced search opens/closes: PASS
+- year/access filters visible when expanded: PASS
+- simple mode activates: PASS
+- anatomy hidden in simple mode: PASS
+- anatomy returns in atlas mode: PASS
+- head tap opens INDEX: PASS
+- anatomy zoom transform applied: PASS
+- atlas parchment background remains assigned during zoom: PASS
+- detail opens: PASS
+- detail back button visible: PASS
+- internal GL code absent from detail: PASS
+- detail closes cleanly: PASS
+- detail open/close repeated 20 times: PASS
+- search for 骨粗鬆症 returns results: PASS
+- resetAll() executes without exception: PASS
+
+All anatomy routes individually tested
+- 頭: PASS
+- 首: PASS
+- 胸部: PASS
+- 腹部: PASS
+- 骨盤・股関節: PASS
+- 左上肢: PASS
+- 右上肢: PASS
+- 左下肢: PASS
+- 右下肢: PASS
+For every route:
+- INDEX opened
+- transform changed
+- correct INDEX title appeared
+- #atlas background remained assigned
+
+Rapid region switching tested
+head -> neck -> chest -> abdomen -> pelvis -> upper limb -> lower limb
+- transforms updated between regions
+- no JavaScript exception
+
+Asset validation
+- home_atlas.png: 1024 x 1536 RGB
+- anatomy_color.png: 1024 x 1536 RGBA
+- parchment_fixed.jpg: 1024 x 1536 RGB
+
+Limitation
+Chromium navigation to local HTTP/file URLs is blocked by the execution environment,
+so runtime testing was performed by loading the full HTML directly into Chromium.
+The JavaScript/DOM interaction is real; external image fetch behavior itself was
+verified separately by file existence and image decoding/dimensions.
