@@ -1,0 +1,94 @@
+V62 FINAL CLEANUP / DEPLOYMENT AUDIT
+Date: 2026-09-16
+
+Goal
+Strip deployment garbage, remove dead compatibility code, and run a final structural audit.
+
+Removed
+- historical V36–V50 audit/recovery CSV files from deployment ZIP
+- prior-version V60/V61 reports
+- v53 compatibility stylesheet
+- dead quickSearch references
+- dead v34 detailPersistentBack CSS
+- dead v55 fallback-back CSS
+- dead cardIndex/code-column CSS
+- blank catalogue grid column/background strip left behind by removed GL code
+- stale version-specific renderer variable names
+
+Kept / verified
+- 630 embedded records
+- simple search
+- collapsed advanced search
+- year filter
+- access/free/paid filter
+- one persistent detail return control
+- background scroll lock for detail and anatomy index
+- specialty color stripe
+- enlarged REFERENCE links
+- dedicated parchment background
+- HOME/COLOR anatomy coordinate system
+- CSV export
+- internal GL IDs in data only, not rendered
+
+Static checks
+- 630 records preserved: PASS
+- database IDs unique: PASS
+- duplicate HTML IDs absent: PASS
+- inline handlers resolved: PASS
+- top quickSearch fully removed: PASS
+- one main search input: PASS
+- advanced search toggle present: PASS
+- advanced search panel present: PASS
+- year filter present: PASS
+- access/free-paid filter present: PASS
+- one detail back button: PASS
+- old back-button code absent: PASS
+- GL code column fully removed: PASS
+- GL code not rendered in detail: PASS
+- specialty color assigned in renderer: PASS
+- reference links enlarged: PASS
+- dedicated parchment background: PASS
+- shared anatomy coordinate rule: PASS
+- modal page lock used for detail and anatomy: PASS
+- CSV export retained: PASS
+- legacy v53 style removed: PASS
+- one current structural layer: PASS
+- safe localStorage wrapper present: PASS
+- anatomy map key head: PASS
+- anatomy map key neck: PASS
+- anatomy map key chest: PASS
+- anatomy map key abdomen: PASS
+- anatomy map key pelvis: PASS
+- anatomy map key upperL: PASS
+- anatomy map key upperR: PASS
+- anatomy map key lowerL: PASS
+- anatomy map key lowerR: PASS
+- JavaScript syntax: PASS
+- asset home_atlas.png: PASS
+- asset anatomy_color.png: PASS
+- asset parchment_fixed.jpg: PASS
+
+Database
+- records: 630
+- unique IDs: 630
+
+Browser smoke test (Chromium, headless)
+- desktop 1440x1000: PASS
+- mobile 390x844: PASS
+- main search visible: PASS
+- top quickSearch absent: PASS
+- advanced search opens/collapses: PASS
+- year/access filters visible when expanded: PASS
+- simple mode activates: PASS
+- GL code absent from list: PASS
+- specialty stripe computed on real card: PASS
+- detail opens: PASS
+- persistent back button visible: PASS
+- GL code absent from detail: PASS
+- body scroll locks during detail: PASS
+- back closes detail and unlocks body: PASS
+- anatomy popup locks body: PASS
+- anatomy popup closes and unlocks body: PASS
+- JavaScript runtime errors during smoke test: 0
+
+Deployment bundle intentionally contains only 5 files.

@@ -26,7 +26,7 @@ h2{font:16px Georgia,serif;letter-spacing:.06em;margin:10px 0}.subs{display:flex
 .specialtyHead{display:flex;align-items:center;justify-content:space-between;font-size:12px;font-weight:bold;margin-bottom:8px}.specialtyHead button{border:1px solid var(--line);background:transparent;font:9px inherit;color:var(--ink);padding:3px 7px}
 .specialtyChips{display:flex;gap:5px;flex-wrap:wrap;max-height:96px;overflow:auto}.specialtyChips button{border:1px solid var(--line);background:#e8ca94;color:var(--ink);font:10px inherit;padding:5px 7px;cursor:pointer}.specialtyChips button.on{background:#352215;color:#f0d7aa}
 .resultTools{display:flex;justify-content:space-between;align-items:center}.resultTools select{width:auto;min-width:92px}.matchwhy{font-size:8px;opacity:.55;margin-top:3px}
-/* v12 UX */
+/* Base UX */
 .uxbar{position:sticky;top:0;z-index:50;background:rgba(238,224,190,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:7px 0}
 .uxinner{display:flex;gap:7px;align-items:center}.uxinner input{flex:1;margin:0}.uxbtn{width:auto;white-space:nowrap}
 .activeFilters{display:flex;gap:5px;flex-wrap:wrap;margin:7px 0}.filterChip{border:1px solid var(--line);border-radius:999px;padding:4px 8px;font-size:9px;background:rgba(255,255,255,.25)}
@@ -42,7 +42,7 @@ h2{font:16px Georgia,serif;letter-spacing:.06em;margin:10px 0}.subs{display:flex
  .resultTools{position:sticky;top:49px;z-index:20;background:rgba(238,224,190,.93);padding:6px 0}
 }
 
-/* v17 clean seven-route interaction */
+/* Seven-route interaction */
 
 
 
@@ -68,7 +68,7 @@ h2{font:16px Georgia,serif;letter-spacing:.06em;margin:10px 0}.subs{display:flex
  
 }
 
-/* v19 hit-area recalibration */
+/* Hit-area calibration */
 .rz-head{left:40%!important;top:5%!important;width:20%!important;height:14%!important;z-index:14!important}
 .rz-neck{left:40%!important;top:19%!important;width:20%!important;height:8%!important;z-index:13!important}
 .rz-chest{left:34%!important;top:27%!important;width:32%!important;height:17%!important;z-index:10!important}
@@ -102,7 +102,7 @@ h2{font:16px Georgia,serif;letter-spacing:.06em;margin:10px 0}.subs{display:flex
 body.debug-hit 
 
 
-/* v21 catalogue readability */
+/* Catalogue readability */
 .brand h1,.brandTitle{font-size:clamp(27px,4.3vw,38px)!important;line-height:1.05!important;letter-spacing:.045em!important}
 .brand p,.brandSub{font-size:clamp(16px,2.7vw,21px)!important;line-height:1.4!important}
 .crumb{font-size:clamp(18px,3.3vw,25px)!important;line-height:1.45!important;font-weight:600!important;margin:18px 0!important}
@@ -122,7 +122,7 @@ body.debug-hit
 .detailTopBack{position:sticky;top:0;z-index:5;background:inherit;padding-top:4px}
 @media(max-width:760px){.detailBackBtn{font-size:16px;min-height:48px}}
 
-/* v22 — antique library catalogue-card detail */
+/* Antique library detail */
 .detail,.drawer,.detailDrawer,#detail{
   background:
     linear-gradient(rgba(244,229,190,.97),rgba(232,207,156,.97)),
@@ -212,7 +212,7 @@ body.a3-debug .a3-hit{background:rgba(140,68,24,.20)!important;outline:2px solid
 
 .a3-hitlayer{transform:none!important}
 
-/* v25 canonical coordinate zoom — this is the ONLY a3 transform rule */
+/* Canonical coordinate zoom — the only anatomy transform rule */
 
 
 body.a3-debug .a3-hit::after{
@@ -220,7 +220,7 @@ body.a3-debug .a3-hit::after{
  font:700 10px sans-serif;padding:2px;white-space:nowrap
 }
 
-/* v26: HOME hit map and COLOR zoom use separate coordinate systems */
+/* HOME hit map and COLOR zoom use separate coordinate systems */
 .a3-hitlayer{transform:none!important;z-index:8!important}
 .atlas .home,.atlas .anatomy{will-change:transform,opacity}
 
@@ -236,7 +236,7 @@ body.a3-debug .a3-hit::after{
  background:#f4dca9e8;border:1px solid #68452388;padding:7px 9px;font:700 11px sans-serif;color:#321}
 body.a3-debug .a3-debug-readout{display:block}
 
-/* v28 final anatomy-state invariants */
+/* Anatomy-state invariants */
 .a3-hitlayer{z-index:8!important;transform:none!important}
 .tag,.back,.catalogBtn{z-index:120!important;pointer-events:auto!important}
 .home{opacity:1}
@@ -244,7 +244,7 @@ body.a3-debug .a3-debug-readout{display:block}
 .atlas.reveal .home{opacity:0!important}
 .atlas.reveal .anatomy{opacity:1!important}
 
-/* ================= v31 LIBRARY DESIGN / STABLE ANATOMY ================= */
+/* ================= LIBRARY DESIGN / STABLE ANATOMY ================= */
 :root{--paper-deep:#d8b878;--ink-deep:#2f2117;--wine:#6b3028;--header-safe:118px}
 .atlasPaper{
  position:absolute;inset:0;z-index:0;pointer-events:none;
@@ -290,21 +290,13 @@ body.a3-debug .a3-debug-readout{display:block}
 /* old-library catalogue cards */
 .results{padding-top:4px}
 .card{
- position:relative;display:grid;grid-template-columns:42px minmax(0,1fr) auto;gap:10px;
+ position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;
  align-items:stretch;margin:8px 0;padding:0!important;overflow:hidden;
  border:1px solid rgba(82,55,31,.45)!important;border-radius:2px;
- background:
-   linear-gradient(90deg,rgba(100,65,35,.07) 0 42px,transparent 42px),
-   linear-gradient(180deg,#ecd5a7,#e5c996);
+ background:linear-gradient(180deg,#ecd5a7,#e5c996);
  box-shadow:0 2px 0 rgba(255,245,213,.35) inset,0 3px 8px rgba(60,38,19,.08);
 }
-.card:hover{background:linear-gradient(90deg,rgba(100,65,35,.09) 0 42px,transparent 42px),linear-gradient(180deg,#f0dab0,#e8cd9b)!important;transform:translateY(-1px)}
-.cardIndex{
- display:flex;align-items:center;justify-content:center;padding:7px 4px;
- border-right:1px dashed rgba(79,51,29,.34);
- writing-mode:vertical-rl;text-orientation:mixed;
- font:700 8px/1 Georgia,serif;letter-spacing:.09em;opacity:.55;
-}
+.card:hover{background:linear-gradient(180deg,#f0dab0,#e8cd9b)!important;transform:translateY(-1px)}
 .cardBody{min-width:0;padding:11px 0 10px}
 .card .title{font-family:"Yu Mincho","Hiragino Mincho ProN",serif;font-size:14px!important;line-height:1.55!important;font-weight:700;color:#332218}
 .card .meta{margin-top:6px!important;font-size:10px!important;line-height:1.45!important;letter-spacing:.025em;color:rgba(57,38,23,.72)!important}
@@ -324,10 +316,9 @@ body.a3-debug .a3-debug-readout{display:block}
 @media(max-width:850px){
  .catalog>.brand{font-size:clamp(21px,6vw,29px);padding-top:18px!important;margin-top:0}
  .catalog>.search{position:relative!important;top:auto!important;margin:0 0 12px}
- .card{grid-template-columns:30px minmax(0,1fr)}
- .cardIndex{font-size:7px}
+ .card{grid-template-columns:minmax(0,1fr)}
  .cardBody{padding:10px 9px 9px 0}
- .cardStamp{grid-column:2;margin:0 9px 9px 0;justify-self:start;min-width:92px}
+ .cardStamp{grid-column:1;margin:0 9px 9px 0;justify-self:start;min-width:92px}
  .card .title{font-size:15px!important}
  .card .meta{font-size:11px!important}
 }
@@ -339,7 +330,7 @@ body.a3-debug .a3-debug-readout{display:block}
 }
 
 
-/* v33 — persistent whole-body return control */
+/* Persistent whole-body return control */
 #backToWhole{
  position:fixed!important;
  right:max(14px,env(safe-area-inset-right))!important;
@@ -366,34 +357,11 @@ body.a3-debug .a3-debug-readout{display:block}
 }
 
 
-/* v34 — detail navigation state */
-.detailPersistentBack{
- position:fixed;left:max(14px,env(safe-area-inset-left));
- top:max(14px,calc(env(safe-area-inset-top) + 10px));
- z-index:5200;display:none;
- min-height:44px;padding:9px 14px;
- border:1px solid rgba(73,47,27,.62);border-radius:2px;
- background:rgba(232,205,153,.96);color:#382517;
- box-shadow:0 5px 18px rgba(43,27,15,.22);
- font:700 13px/1.2 "Yu Mincho","Hiragino Mincho ProN",serif;
- cursor:pointer;backdrop-filter:blur(5px);
-}
-#drawer.open .detailPersistentBack{display:block}
-#drawer.open{padding-top:70px!important}
-#drawer.open .x{position:fixed!important;right:max(14px,env(safe-area-inset-right))!important;top:max(14px,calc(env(safe-area-inset-top) + 10px))!important;z-index:5200!important}
-@media(max-width:760px){
- .detailPersistentBack{
-   left:max(10px,env(safe-area-inset-left));
-   top:max(10px,calc(env(safe-area-inset-top) + 8px));
-   max-width:calc(100vw - 70px);font-size:13px;
- }
- #drawer.open{padding-top:68px!important}
-}
 /* While a book is open, whole-body return is not a competing navigation action. */
 body.detail-open #backToWhole{opacity:0!important;visibility:hidden!important;pointer-events:none!important}
 
 
-/* v37 — full-screen library search mode */
+/* Full-screen library search mode */
 .viewModeSwitch{
  position:fixed;right:18px;top:16px;z-index:6000;display:flex;
  border:1px solid rgba(70,46,27,.55);background:rgba(230,204,158,.94);
@@ -461,211 +429,154 @@ body.library-only .libraryLedgerCell b{
 }
 
 </style>
-
-
-
-
-
-
-<style id="v53-critical-fixes">
-/* Exact coordinate surface: JS positions both image layers to the same contain rectangle. */
+<style id="v62-final-clean">
+/* Shared HOME/COLOR coordinate surface. */
 #atlas .layer{
   object-fit:fill!important;
-  max-width:none!important;max-height:none!important;
+  max-width:none!important;
+  max-height:none!important;
   transform-origin:0 0!important;
 }
-/* Real full-screen simple/library mode. .app was still a two-column grid in v52. */
+
+/* True full-width simple/library mode. */
 body.library-only .app{display:block!important;width:100%!important;max-width:none!important}
-body.library-only .catalog{display:block!important;width:100%!important;max-width:none!important;border-left:0!important}
+body.library-only .catalog{
+  display:block!important;width:100%!important;max-width:none!important;
+  border-left:0!important;
+}
 body.library-only #atlas{display:none!important}
 body.library-only .viewModeSwitch{position:fixed!important}
-@media(max-width:900px){
- body.library-only .catalog{padding-top:58px!important}
-}
-/* Search-first simple view: hide secondary filter machinery until explicitly needed. */
-body.library-only .routeSearch,
-body.library-only .specialtySearch,
-body.library-only .filters{display:none!important}
-body.library-only .catalog>.brand{margin-bottom:10px!important}
-</style>
 
-
-<style id="v54-background-preservation-fix">
-/* V54 three-layer contract:
-   1) atlasPaper = original stable background; never transformed/replaced here
-   2) .home      = HOME figure
-   3) .anatomy   = COLOR figure; only this layer may zoom
-*/
+/* --- background: dedicated immutable parchment layer --- */
 #atlas .atlasPaper{
-  transform:none!important;
-  transition:none!important;
-}
-#atlas .home{
-  transform:none!important;
-  transform-origin:0 0!important;
-}
-#atlas .anatomy{
-  transform-origin:0 0!important;
-}
-</style>
-
-
-<style id="v55-navigation-ux-fix">
-/* Remove the redundant top search strip; retain catalogue search. */
-.routeSearch{display:none!important}
-
-/* Desktop: keep anatomy return control visually attached to the anatomy stage. */
-@media(min-width:901px){
-  #atlas .a3-back,
-  #atlas #a3Back,
-  #atlas .backToWhole{
-    position:absolute!important;
-    left:18px!important;
-    top:18px!important;
-    right:auto!important;
-    bottom:auto!important;
-    z-index:80!important;
-  }
-}
-
-/* During anatomy zoom, navigation is screen/stage anchored rather than transformed with anatomy. */
-#atlas .a3-hitlayer,
-#atlas .a3-zone-nav,
-#atlas .a3-nav-overlay{
-  transform:none!important;
-}
-
-/* Catalogue/detail back button must stay obvious while reading a record. */
-.detailBack,.catalogBack,#detailBack,#catalogBack,.backBtn[data-action="back"]{
-  position:sticky!important;
-  top:10px!important;
-  z-index:140!important;
-  display:inline-flex!important;
-  align-items:center!important;
-  gap:6px!important;
-  min-height:38px!important;
-  padding:8px 12px!important;
-  background:rgba(244,232,202,.96)!important;
-  border:1px solid rgba(72,49,25,.45)!important;
-  box-shadow:0 3px 12px rgba(42,27,13,.14)!important;
-}
-
-/* If the existing detail view has no dedicated back class, the injected button below is used. */
-#v55DetailBack{
-  position:fixed;left:14px;top:72px;z-index:220;
-  display:none;align-items:center;gap:7px;
-  min-height:40px;padding:8px 13px;
-  border:1px solid rgba(72,49,25,.5);
-  background:rgba(245,233,202,.97);
-  color:inherit;font:inherit;font-size:12px;cursor:pointer;
-  box-shadow:0 4px 16px rgba(42,27,13,.18)
-}
-body.v55-detail-open #v55DetailBack{display:inline-flex}
-@media(max-width:900px){
- #v55DetailBack{left:10px;top:62px}
-}
-</style>
-
-
-<style id="v56-simple-ledger-polish">
-/* SIMPLE MODE: compact horizontal metadata. IDs/codes are secondary information. */
-body.library-only .ledger-row,
-body.library-only .catalog-card,
-body.library-only .guideline-card{
-  writing-mode:horizontal-tb!important;
-  text-orientation:mixed!important;
-}
-body.library-only .ledger-row *{
-  writing-mode:horizontal-tb!important;
-  text-orientation:mixed!important;
-}
-body.library-only .ledger-id,
-body.library-only .guideline-id,
-body.library-only .code,
-body.library-only [data-field="id"]{
-  writing-mode:horizontal-tb!important;
-  white-space:nowrap!important;
-  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace!important;
-  font-size:8px!important;
-  letter-spacing:-.03em!important;
-  opacity:.34!important;
-  max-width:86px!important;
-  overflow:hidden!important;
-  text-overflow:ellipsis!important;
-}
-
-/* References are useful when evaluating a record: give them more visual weight. */
-.reference,.references,.referenceBlock,.ref-block,.sources,.source-links{
-  font-size:13px!important;
-  line-height:1.65!important;
-}
-.reference a,.references a,.referenceBlock a,.ref-block a,.sources a,.source-links a{
-  font-size:13px!important;
-  line-height:1.65!important;
-  text-decoration-thickness:1px!important;
-  text-underline-offset:3px!important;
-}
-
-/* Specialty color is deliberately subtle: a 4px ledger-edge marker, not a full colored card. */
-body.library-only .ledger-row,
-body.library-only .catalog-card,
-body.library-only .guideline-card{
-  border-left:4px solid var(--v56-specialty,rgba(96,75,47,.32))!important;
-}
-</style>
-
-
-<style id="v57-hide-codes">
-/* Simple mode: internal IDs/codes are implementation metadata, not browsing information. */
-body.library-only .ledger-id,
-body.library-only .guideline-id,
-body.library-only .code,
-body.library-only [data-field="id"]{
-  display:none!important;
-}
-</style>
-
-
-<style id="v58-regression-fix">
-.uxbar{display:none!important}
-#atlas .atlasPaper{
-  display:block!important;
-  opacity:1!important;
-  visibility:visible!important;
+  position:absolute;inset:0;z-index:0;
+  display:block!important;opacity:1!important;visibility:visible!important;
   background:
     linear-gradient(rgba(226,204,158,.18),rgba(193,154,92,.14)),
     url("parchment_fixed.jpg") center/cover no-repeat!important;
   filter:sepia(.18) saturate(.78)!important;
-  transform:none!important;
+  transform:none!important;transition:none!important;
+  pointer-events:none!important;
 }
+#atlas .home{transform:none!important;transform-origin:0 0!important}
+#atlas .anatomy{transform-origin:0 0!important}
+
+/* --- redundant historical top utility/search bar never returns --- */
+.uxbar{display:none!important}
+
+/* --- clear search hierarchy --- */
+.advancedSearch{margin:10px 0 12px}
+.advancedSearchToggle{
+  width:100%;min-height:40px;
+  display:flex;justify-content:space-between;align-items:center;
+  border:1px solid var(--line);background:#e8c990;color:var(--ink);
+  padding:9px 11px;font:12px inherit;cursor:pointer;
+}
+.advancedSearchPanel{
+  margin-top:7px;padding:10px;
+  border:1px solid var(--line);
+  background:rgba(236,207,156,.42);
+}
+.advancedSearchPanel[hidden]{display:none!important}
+.advancedSearchPanel .filters{display:block!important;margin:10px 0 0}
+.advancedSearchPanel .filterBody{display:grid!important}
+body.library-only .advancedSearch{display:block!important}
+body.library-only .routeSearch,
+body.library-only .specialtySearch,
+body.library-only .filters{display:block!important}
+
+/* --- compact simple list; no internal code --- */
+.card{position:relative}
+body.library-only .card{
+  border-left:7px solid var(--specialty-color,#8a765d)!important;
+  padding-left:15px!important;
+}
+body.library-only .cardStamp{
+  min-width:98px!important;
+  font-size:11px!important;
+  line-height:1.35!important;
+}
+body.library-only .cardStamp span{
+  font-size:10px!important;
+  letter-spacing:.12em!important;
+}
+
+/* --- PC anatomy return stays attached to anatomy stage --- */
+@media(min-width:901px){
+ #backToWhole{
+   left:16px!important;right:auto!important;
+   bottom:16px!important;top:auto!important;
+   z-index:150!important;
+ }
+}
+
+/* --- one detail drawer, one return control --- */
+#drawer{
+  z-index:9100!important;
+  overscroll-behavior:contain!important;
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-y!important;
+}
+#drawer .detailNav{
+  position:sticky;top:0;z-index:50;
+  display:flex;gap:8px;align-items:center;
+  padding:10px;
+  background:rgba(225,193,139,.98);
+  border-bottom:1px solid var(--line);
+  box-shadow:0 4px 12px rgba(50,31,15,.12);
+}
+#drawer .detailBack{
+  flex:1;min-height:44px;
+  border:1px solid rgba(73,47,27,.62);
+  background:#ead19d;color:var(--ink);
+  padding:9px 13px;font:12px inherit;text-align:left;
+}
+#drawer .detailClose{
+  width:44px;height:44px;flex:0 0 44px;
+  border:1px solid rgba(73,47,27,.62);
+  background:#ead19d;color:var(--ink);
+  font:20px/1 inherit;
+}
+#detail{padding-top:8px}
+#detail .detailCardSheet{
+  border-left:7px solid var(--specialty-color,#8a765d);
+}
+#detail .detailLinksV22{
+  margin-top:24px!important;
+  display:grid!important;
+  gap:9px!important;
+}
+#detail .detailLinksV22::before{
+  content:"REFERENCE";
+  font:13px Georgia,serif;
+  letter-spacing:.18em;
+  opacity:.72;
+}
+#detail .detailLinksV22 a{
+  min-height:46px!important;
+  display:flex!important;align-items:center!important;
+  padding:11px 14px!important;
+  font-size:15px!important;line-height:1.4!important;
+}
+
+/* --- both detail drawer and anatomy index are true modal layers --- */
+body.ui-modal-open{overscroll-behavior:none!important}
+body.ui-modal-open #atlas,
+body.ui-modal-open .catalog{pointer-events:none!important}
+
+#a3Shade.open{z-index:9200!important}
+#a3Popup{
+  z-index:9201!important;
+  overscroll-behavior:contain!important;
+  touch-action:pan-y!important;
+  -webkit-overflow-scrolling:touch;
+}
+
+/* no stray historical fallback button */
 </style>
 
-<style id="v59-code-column-removal">
-/* Simple/library mode: internal guideline codes are never browsing content. */
-body.library-only .ledger-id,
-body.library-only .guideline-id,
-body.library-only .code,
-body.library-only .record-code,
-body.library-only .gl-code,
-body.library-only [data-field="id"],
-body.library-only [data-field="code"],
-body.library-only [data-col="id"],
-body.library-only [data-col="code"],
-body.library-only [class*="guidelineCode"],
-body.library-only [class*="guideline-code"]{
-  display:none!important;
-  width:0!important;
-  min-width:0!important;
-  max-width:0!important;
-  padding:0!important;
-  margin:0!important;
-  border:0!important;
-  overflow:hidden!important;
-}
-</style>
-
-</head><button id="v55DetailBack" type="button" aria-label="蔵書一覧へ戻る">← 蔵書一覧へ戻る</button>
-<body data-build="v59-code-column-removed"><div class="viewModeSwitch" role="group" aria-label="表示モード">
+</head>
+<body data-build="v62-final-clean"><div class="viewModeSwitch" role="group" aria-label="表示モード">
 <button type="button" id="modeAtlasBtn" class="active" onclick="setViewMode('atlas')">人体＋蔵書</button>
 <button type="button" id="modeLibraryBtn" onclick="setViewMode('library')">シンプル表示</button><button type="button" id="csvExportBtn" onclick="exportVisibleCSV()" title="現在表示中の蔵書をCSV出力">CSV出力</button>
 </div>
@@ -678,22 +589,43 @@ body.library-only [class*="guideline-code"]{
 <div class="a3-debug-readout" id="a3DebugReadout">READY</div><button type="button" class="back" id="backToWhole" onclick="resetAtlas();render();return false;">← 全身へ戻る</button></main>
 <aside class="catalog"><div class="brand">MEDICAL GUIDELINE LIBRARY<br><small>診療ガイドライン図書館</small></div>
 <div class="search"><input id="q" placeholder="ガイドライン名・疾患・診療科・部位を検索" oninput="syncMainSearch(this.value)"><button type="button" onclick="render()">検索</button></div><div class="crumb" id="crumb">全身 ＞ 全ガイドライン</div>
-<div class="filtersPanel" id="filtersPanel"><section class="routeSearch"><div class="specialtyHead">探し方</div><div class="specialtyChips">
-<button onclick="setRoute('')">すべて</button><button onclick="setRoute('body')">人体・臓器から</button><button onclick="setRoute('systemic')">全身・部位によらない</button>
-</div></section><section class="specialtySearch">
-<div class="specialtyHead">診療科から探す <button id="spClear" onclick="pickSpecialty('')">すべて</button></div>
-<div class="specialtyChips" id="specialtyChips"></div>
-</section>
-<div class="filters"><div class="filterTitle" onclick="toggleCatalogFilters()">蔵書目録 / カテゴリ検索 <span id="fmark">−</span></div><div class="filterBody" id="filterBody">
-<select id="fSpecialty" onchange="render()"><option value="">診療科：すべて</option></select><select id="fDisease" onchange="render()"><option value="">疾患群：すべて</option></select>
-<select id="fBody" onchange="render()"><option value="">身体部位：すべて</option></select><select id="fOrg" onchange="render()"><option value="">発行学会：すべて</option></select>
-<select id="fYear" onchange="render()"><option value="">発行年：すべて</option></select><select id="fAccess" onchange="render()"><option value="">アクセス：すべて</option></select>
-<button class="reset" onclick="clearFilters()">検索条件をクリア</button></div></div>
+<div class="advancedSearch">
+<button type="button" id="advancedSearchToggle" class="advancedSearchToggle" aria-expanded="false" aria-controls="advancedSearchPanel" onclick="toggleAdvancedSearch()">
+  詳細検索 <span id="advancedSearchMark">＋</span>
+</button>
+<div id="advancedSearchPanel" class="advancedSearchPanel" hidden>
+  <section class="routeSearch">
+    <div class="specialtyHead">探し方</div>
+    <div class="specialtyChips">
+      <button onclick="setRoute('')">すべて</button>
+      <button onclick="setRoute('body')">人体・臓器から</button>
+      <button onclick="setRoute('systemic')">全身・部位によらない</button>
+    </div>
+  </section>
+  <section class="specialtySearch">
+    <div class="specialtyHead">診療科から探す <button id="spClear" onclick="pickSpecialty('')">すべて</button></div>
+    <div class="specialtyChips" id="specialtyChips"></div>
+  </section>
+  <div class="filters">
+    <div class="filterBody" id="filterBody">
+      <select id="fSpecialty" onchange="render()"><option value="">診療科：すべて</option></select>
+      <select id="fDisease" onchange="render()"><option value="">疾患群：すべて</option></select>
+      <select id="fBody" onchange="render()"><option value="">身体部位：すべて</option></select>
+      <select id="fOrg" onchange="render()"><option value="">発行学会：すべて</option></select>
+      <select id="fYear" onchange="render()"><option value="">発行年：すべて</option></select>
+      <select id="fAccess" onchange="render()"><option value="">アクセス：すべて</option></select>
+      <button class="reset" onclick="clearFilters()">検索条件をクリア</button>
+    </div>
+  </div>
+</div>
 </div><div class="resultTools"><h2 id="heading">蔵書一覧</h2><select id="sortMode" onchange="render()"><option value="new">新しい順</option><option value="old">古い順</option><option value="title">名称順</option></select></div><div class="subs" id="subs"></div><div class="results" id="results"></div><p class="hint">分類は原データを保持したまま、検索時のみ表記揺れ（例：頚椎→頸椎、膝関節→膝）を吸収します。</p><p class="hint">人体マップとカテゴリ検索は同じ検索状態として連動します。人体索引は身体部位・疾患・タイトルを優先して照合します。ズーム後はINDEXから解剖構造を選択します。臓器選択後も発行年・学会・アクセス条件を追加できます。</p></aside></div>
-<aside class="drawer" id="drawer" aria-hidden="true">
-<button class="x" onclick="closeDetail()">×</button>
-<button type="button" class="detailPersistentBack" id="detailPersistentBack" onclick="closeDetail()">← 蔵書一覧へ戻る</button>
-<div id="detail"></div></aside>
+<aside class="drawer" id="drawer" aria-hidden="true" role="dialog" aria-modal="true" aria-label="蔵書詳細">
+  <div class="detailNav">
+    <button type="button" class="detailBack" id="detailBack" onclick="closeDetail()">← 蔵書一覧へ戻る</button>
+    <button type="button" class="detailClose" aria-label="閉じる" onclick="closeDetail()">×</button>
+  </div>
+  <div id="detail"></div>
+</aside>
 <script>
 let DATA=[],area="",structure="",sub="",route="";
 const JP={
@@ -776,7 +708,7 @@ function syncQuickSearch(v){
 }
 function syncMainSearch(v){
  closeDetail();
- const q=document.getElementById("quickSearch");if(q)q.value=v;render();
+ render();
 }
 function toggleMobileFilters(){
  document.getElementById("filtersPanel")?.classList.toggle("open");
@@ -793,7 +725,7 @@ function resetAll(){
  ["fSpecialty","fDisease","fBody","fOrg","fYear","fAccess"].forEach(id=>{
    const e=document.getElementById(id);if(e)e.value="";
  });
- const q=document.getElementById("q"),quick=document.getElementById("quickSearch");
+ const q=document.getElementById("q");
  if(q)q.value="";if(quick)quick.value="";
  resetAtlas();
  document.getElementById("filtersPanel")?.classList.remove("open");
@@ -817,8 +749,55 @@ function a3AreaName(k){
  const hit=Object.values(A3_META).find(x=>x.area===k);
  return hit?hit.name:k;
 }
-function render(){syncSpecialty();let q=qEl().value.trim(),sp=vals("fSpecialty"),dz=vals("fDisease"),bd=vals("fBody"),org=vals("fOrg"),yr=vals("fYear"),ac=vals("fAccess");let af=[];if(sp)af.push("診療科："+sp);if(dz)af.push("疾患："+dz);if(bd)af.push("部位："+bd);if(yr)af.push("年："+yr);if(ac)af.push("公開："+ac);let arr=DATA.filter(r=>{let t=T(r);let anatomy=anatomyMatch(r,structure);let routeOK=!route||(route==="body"?r.bodyAudit!=="部位不要候補":route==="systemic"?r.bodyAudit==="部位不要候補":true);return(!q||t.includes(q))&&anatomy&&subMatch(r,sub)&&routeOK&&(!sp||r.specialtyLabel===sp)&&(!dz||[r.diseaseCategory,r.diseaseGroup,r.diseases].join(" ").includes(dz))&&(!bd||[r.body,r.bodyRegions].join(" ").includes(bd))&&(!org||r.organization===org)&&(!yr||String(r.year)===yr)&&(!ac||r.accessLabel===ac)});let sm=document.getElementById("sortMode")?.value||"new";arr.sort((a,b)=>sm==="old"?(a.year||0)-(b.year||0):sm==="title"?String(a.title||"").localeCompare(String(b.title||""),"ja"):(b.year||0)-(a.year||0));filterSummary();document.getElementById("heading").textContent=(structure?S[structure].n:"蔵書一覧")+" — "+arr.length+"冊";document.getElementById("crumb").textContent="全身"+(area?" ＞ "+a3AreaName(area):"")+(structure?" ＞ "+S[structure].n:"")+(sub?" ＞ "+sub:"");document.getElementById("subs").innerHTML=structure&&subs[structure]?subs[structure].map(s=>`<button class="${sub===s?'on':''}" onclick="setSub('${s}')">${s}</button>`).join(""):"";document.getElementById("results").innerHTML=arr.map(r=>`<div class="card" onclick="openD('${r.id}')">
-<div class="cardIndex">${esc(r.id||"GL")}</div>
+
+function specialtyColor(r){
+ const key=String(r?.specialty||"").toUpperCase();
+ const label=String(r?.specialtyLabel||"");
+ const exact={
+  CARD:"#8a5b56",CARDIOLOGY:"#8a5b56",
+  ORTHO:"#6f7058",ORTHO_GEN:"#6f7058",ORTHOPEDICS:"#6f7058",SPINE:"#6f7058",
+  RHEUM:"#756477",RHEUMATOLOGY:"#756477",
+  GI:"#8b744c",GASTRO:"#8b744c",GASTROENTEROLOGY:"#8b744c",GI_SURG:"#8b744c",
+  HEP:"#8b744c",HEPATOLOGY:"#8b744c",HPB_SURG:"#8b744c",
+  RESP:"#61747a",RESPIRATORY:"#61747a",
+  NEURO:"#6b667d",NEUROL:"#6b667d",NEUROLOGY:"#6b667d",NEUROSURG:"#6b667d",NEUROSURGERY:"#6b667d",
+  NEPH:"#657482",URO:"#657482",UROLOGY:"#657482",
+  GYN:"#8b6876",OB:"#8b6876",OBGYN:"#8b6876",GYNECOLOGY:"#8b6876",
+  PEDI:"#9a7a69",PEDIATRICS:"#9a7a69",PED_SURG:"#9a7a69",NEONATAL:"#9a7a69",
+  DERM:"#83705d",DERMATOLOGY:"#83705d",
+  OPHTH:"#657769",OPHTHALMOLOGY:"#657769",
+  ENT:"#68776e",ENT_GEN:"#68776e",OTOLARYNGOLOGY:"#68776e",HN_SURG:"#68776e",
+  DENTAL:"#78695f",DENTISTRY:"#78695f",ORAL_SURG:"#78695f",
+  PSYCH:"#726a7c",PSYCHIATRY:"#726a7c",
+  EMERG:"#805f53",EMERGENCY:"#805f53",ICU:"#805f53",
+  ONCO:"#7d5e6b",ONCOLOGY:"#7d5e6b",MED_ONC:"#7d5e6b",HEMA:"#7d5e6b",HEMATOLOGY:"#7d5e6b",BREAST_SURG:"#7d5e6b",
+  ENDO:"#8a7650",ENDOCRINOLOGY:"#8a7650",DM:"#8a7650",
+  INF:"#6f7558",INFECTIOUS:"#6f7558",INFECTIOUS_DISEASE:"#6f7558",INFECTION_CONTROL:"#6f7558",
+  RAD_DIAG:"#5f6f76",RAD_ONC:"#5f6f76",IVR:"#5f6f76",
+  REHAB:"#77705d",REHABIL:"#77705d",REHABILITATION:"#77705d",
+  GERI:"#7b715e",HOMECARE:"#7b715e"
+ };
+ if(exact[key]) return exact[key];
+ const t=label+" "+key;
+ if(/整形|骨|脊椎/.test(t))return "#6f7058";
+ if(/循環|心臓/.test(t))return "#8a5b56";
+ if(/消化|肝|胆|膵/.test(t))return "#8b744c";
+ if(/呼吸|肺/.test(t))return "#61747a";
+ if(/脳|神経/.test(t))return "#6b667d";
+ if(/腎|泌尿/.test(t))return "#657482";
+ if(/産婦|婦人|産科/.test(t))return "#8b6876";
+ if(/小児|新生児/.test(t))return "#9a7a69";
+ if(/皮膚/.test(t))return "#83705d";
+ if(/眼/.test(t))return "#657769";
+ if(/耳鼻|頭頸部/.test(t))return "#68776e";
+ if(/歯|口腔/.test(t))return "#78695f";
+ if(/精神/.test(t))return "#726a7c";
+ if(/救急|集中治療/.test(t))return "#805f53";
+ if(/腫瘍|がん|血液/.test(t))return "#7d5e6b";
+ return "#8a765d";
+}
+
+function render(){syncSpecialty();let q=qEl().value.trim(),sp=vals("fSpecialty"),dz=vals("fDisease"),bd=vals("fBody"),org=vals("fOrg"),yr=vals("fYear"),ac=vals("fAccess");let af=[];if(sp)af.push("診療科："+sp);if(dz)af.push("疾患："+dz);if(bd)af.push("部位："+bd);if(yr)af.push("年："+yr);if(ac)af.push("公開："+ac);let arr=DATA.filter(r=>{let t=T(r);let anatomy=anatomyMatch(r,structure);let routeOK=!route||(route==="body"?r.bodyAudit!=="部位不要候補":route==="systemic"?r.bodyAudit==="部位不要候補":true);return(!q||t.includes(q))&&anatomy&&subMatch(r,sub)&&routeOK&&(!sp||r.specialtyLabel===sp)&&(!dz||[r.diseaseCategory,r.diseaseGroup,r.diseases].join(" ").includes(dz))&&(!bd||[r.body,r.bodyRegions].join(" ").includes(bd))&&(!org||r.organization===org)&&(!yr||String(r.year)===yr)&&(!ac||r.accessLabel===ac)});let sm=document.getElementById("sortMode")?.value||"new";arr.sort((a,b)=>sm==="old"?(a.year||0)-(b.year||0):sm==="title"?String(a.title||"").localeCompare(String(b.title||""),"ja"):(b.year||0)-(a.year||0));filterSummary();document.getElementById("heading").textContent=(structure?S[structure].n:"蔵書一覧")+" — "+arr.length+"冊";document.getElementById("crumb").textContent="全身"+(area?" ＞ "+a3AreaName(area):"")+(structure?" ＞ "+S[structure].n:"")+(sub?" ＞ "+sub:"");document.getElementById("subs").innerHTML=structure&&subs[structure]?subs[structure].map(s=>`<button class="${sub===s?'on':''}" onclick="setSub('${s}')">${s}</button>`).join(""):"";document.getElementById("results").innerHTML=arr.map(r=>`<div class="card" style="--specialty-color:${specialtyColor(r)}" onclick="openD('${r.id}')">
 <div class="cardBody"><div class="title">${esc(r.title)}</div>
 <div class="meta">${esc(r.organization||"発行機関未確認")}<span class="metaSep">／</span>${r.year||"—"}<span class="metaSep">／</span>${esc(r.specialtyLabel||"")}</div>
 ${structure?`<div class="matchwhy">人体索引：${esc(S[structure].n)} に関連</div>`:""}</div>
@@ -829,15 +808,77 @@ document.getElementById("specialtyChips").innerHTML=spl.map(x=>`<button data-sp=
 function unique(a){return [...new Set(a.filter(Boolean))].sort((a,b)=>String(a).localeCompare(String(b),"ja"))}function fill(id,a,first){let e=document.getElementById(id);e.innerHTML=`<option value="">${first}</option>`+a.map(x=>`<option>${esc(x)}</option>`).join("")}
 function clearFilters(){
  ["fSpecialty","fDisease","fBody","fOrg","fYear","fAccess"].forEach(id=>{const e=document.getElementById(id);if(e)e.value=""});
- const q=qEl(),quick=document.getElementById("quickSearch");if(q)q.value="";if(quick)quick.value="";
+ const q=qEl();if(q)q.value="";
  syncSpecialty();render();
 }
+
+let __pageLockY=0;
+function setPageLock(on){
+ if(on){
+   if(document.body.dataset.pageLocked==="1")return;
+   __pageLockY=window.scrollY||document.documentElement.scrollTop||0;
+   document.body.dataset.pageLocked="1";
+   document.body.style.position="fixed";
+   document.body.style.top=`-${__pageLockY}px`;
+   document.body.style.left="0";
+   document.body.style.right="0";
+   document.body.style.width="100%";
+   document.body.classList.add("ui-modal-open");
+ }else{
+   if(document.body.dataset.pageLocked!=="1")return;
+   const y=Math.abs(parseInt(document.body.style.top||"0",10))||__pageLockY||0;
+   document.body.dataset.pageLocked="";
+   document.body.style.position="";
+   document.body.style.top="";
+   document.body.style.left="";
+   document.body.style.right="";
+   document.body.style.width="";
+   document.body.classList.remove("ui-modal-open");
+   window.scrollTo(0,y);
+ }
+}
+
+function toggleAdvancedSearch(force){
+ const panel=document.getElementById("advancedSearchPanel");
+ const btn=document.getElementById("advancedSearchToggle");
+ const mark=document.getElementById("advancedSearchMark");
+ if(!panel||!btn)return;
+ const next=typeof force==="boolean"?force:panel.hasAttribute("hidden");
+ if(next) panel.removeAttribute("hidden"); else panel.setAttribute("hidden","");
+ btn.setAttribute("aria-expanded",next?"true":"false");
+ if(mark)mark.textContent=next?"−":"＋";
+}
+
 function qEl(){return document.getElementById("q")}
-function openD(id){let r=DATA.find(x=>x.id===id);if(!r)return;let L=[["公式",r.official],["本文",r.fulltext],["Minds",r.minds],["出版社",r.publisherUrl]].filter(x=>x[1]);document.getElementById("detail").innerHTML=`<p>${esc(r.id||"")}</p><h1>${esc(r.title)}</h1><div class="dl"><b>発行年</b><span>${r.year||"—"}</span><b>学会</b><span>${esc(r.organization||"—")}</span><b>診療科</b><span>${esc(r.specialtyLabel||r.specialty||"—")}</span><b>疾患</b><span>${esc(r.diseases||r.diseaseCategory||"—")}</span><b>アクセス</b><span>${esc(r.accessLabel||"—")}</span><b>価格</b><span>${r.price?"¥"+Number(r.price).toLocaleString():"—"}</span><b>確認状況</b><span>${esc(r.verifiedLabel||"確認済み")}</span><b>人体タグ</b><span>${esc((r.anatomyTags||[]).join(" / ")||"部位によらない・要確認")}</span><b>人体索引</b><span>${esc(r.bodyAudit==="部位不要候補"?"部位によらない":r.bodyAudit==="部位付与候補"?"分類確認中":r.bodyAudit==="判断保留"?"分類保留":"部位情報あり")}</span></div><div class="links">${L.map(x=>`<a href="${esc(x[1])}" target="_blank">${x[0]} →</a>`).join("")}</div>`;a3Close();
-const drawerEl=document.getElementById("drawer");
-drawerEl.classList.add("open");drawerEl.setAttribute("aria-hidden","false");
-document.body.classList.add("detail-open");
-setTimeout(decorateDetailCard,0)}
+function openD(id){
+ const r=DATA.find(x=>x.id===id);if(!r)return;
+ a3Close();
+ const L=[["公式",r.official],["本文",r.fulltext],["Minds",r.minds],["出版社",r.publisherUrl]].filter(x=>x[1]);
+ const detail=document.getElementById("detail");
+ detail.innerHTML=`<article class="detailCardSheet" style="--specialty-color:${specialtyColor(r)}">
+   <div class="detailEyebrow">LIBRARY CATALOGUE / 診療ガイドライン蔵書票</div>
+   <h1 class="detailTitleV22">${esc(r.title)}</h1>
+   <div class="dl">
+    <b>発行年</b><span>${r.year||"—"}</span>
+    <b>学会</b><span>${esc(r.organization||"—")}</span>
+    <b>診療科</b><span>${esc(r.specialtyLabel||r.specialty||"—")}</span>
+    <b>疾患</b><span>${esc(r.diseases||r.diseaseCategory||"—")}</span>
+    <b>アクセス</b><span>${esc(r.accessLabel||"—")}</span>
+    <b>価格</b><span>${r.price?"¥"+Number(r.price).toLocaleString():"—"}</span>
+    <b>確認状況</b><span>${esc(r.verifiedLabel||"確認済み")}</span>
+    <b>人体タグ</b><span>${esc((r.anatomyTags||[]).join(" / ")||"部位によらない・要確認")}</span>
+    <b>人体索引</b><span>${esc(r.bodyAudit==="部位不要候補"?"部位によらない":r.bodyAudit==="部位付与候補"?"分類確認中":r.bodyAudit==="判断保留"?"分類保留":"部位情報あり")}</span>
+   </div>
+   ${L.length?`<div class="detailLinksV22" aria-label="REFERENCE">${L.map(x=>`<a href="${esc(x[1])}" target="_blank" rel="noopener">${x[0]} →</a>`).join("")}</div>`:""}
+ </article>`;
+ const drawer=document.getElementById("drawer");
+ drawer.classList.add("open");
+ drawer.setAttribute("aria-hidden","false");
+ document.body.classList.add("detail-open");
+ setPageLock(true);
+ drawer.scrollTop=0;
+}
+
 function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
 
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){document.getElementById("filtersPanel")?.classList.remove("open");closeDetail();a3Close();}});
@@ -846,40 +887,16 @@ window.addEventListener("scroll",()=>{let b=document.getElementById("toTop");if(
 function closeDetail(){
  const d=document.getElementById("drawer");
  if(d){
-   d.classList.remove("open");d.setAttribute("aria-hidden","true");
-   window.setTimeout(()=>{if(!d.classList.contains("open")){const x=document.getElementById("detail");if(x)x.innerHTML="";}},260);
+   d.classList.remove("open");
+   d.setAttribute("aria-hidden","true");
  }
  document.body.classList.remove("detail-open");
+ if(!document.getElementById("a3Popup")?.classList.contains("open")) setPageLock(false);
 }
 
 
-function decorateDetailCard(){
- const d=document.getElementById("drawer");
- if(!d||!d.classList.contains("open")||d.querySelector(".detailCardSheet"))return;
- const back=d.querySelector(".detailBackBtn");
- const headings=[...d.querySelectorAll("h1,h2,h3")];
- const title=headings.find(h=>!h.closest(".detailTopBack"));
- if(title){title.classList.add("detailTitleV22");}
- const wrap=document.createElement("div");wrap.className="detailCardSheet";
- const eyebrow=document.createElement("div");eyebrow.className="detailEyebrow";eyebrow.textContent="LIBRARY CATALOGUE / 診療ガイドライン蔵書票";
- if(title) title.parentNode.insertBefore(wrap,title);
- else d.appendChild(wrap);
- wrap.appendChild(eyebrow);
- if(title)wrap.appendChild(title);
- // Move the remaining detail content into the paper card, keeping the back button outside.
- [...d.children].forEach(el=>{
-   if(el!==wrap && !el.classList.contains("detailTopBack") && !el.classList.contains("detailBackBtn")) wrap.appendChild(el);
- });
- // Style existing links as source shelves without changing URLs.
- const links=[...wrap.querySelectorAll("a")].filter(a=>a.href);
- if(links.length){
-   const box=document.createElement("div");box.className="detailLinksV22";
-   links.forEach(a=>box.appendChild(a));wrap.appendChild(box);
- }
-}
 
-
-/* v26 DUAL-COORDINATE ANATOMY CONTROLLER
+/* DUAL-COORDINATE ANATOMY CONTROLLER
    HOME image is used only for tap detection.
    COLOR image is used only for zoom target.
    The figures in the two 1024x1536 images are not spatially registered. */
@@ -992,10 +1009,16 @@ function a3ApplyZoom(key){
 
 function a3Open(key){
  closeDetail();
+ const anatomyReset=document.querySelector("#atlas .anatomy");
+ if(anatomyReset){
+   anatomyReset.style.removeProperty("transform");
+   anatomyReset.style.setProperty("transform-origin","0 0","important");
+ }
+
  const atlasEl=document.getElementById("atlas");if(atlasEl?.classList.contains("returning"))return;
  const m=A3_META[key];if(!m)return;
  const dbg=document.getElementById("a3DebugReadout");
- if(dbg)dbg.textContent="TAP → "+key+" / "+m.name+" | controller=v57";
+ if(dbg)dbg.textContent="TAP → "+key+" / "+m.name+" | controller=v61";
  a3ApplyZoom(key);
  area=m.area; structure=""; sub="";
  const tagEl=document.getElementById("tag");
@@ -1003,6 +1026,7 @@ function a3Open(key){
  document.getElementById("a3Title").textContent=m.name+" — INDEX";
  document.getElementById("a3Body").innerHTML=Object.entries(m.groups).map(([g,a])=>`<div class="a3-group"><div class="a3-group-label">${g}</div><div class="a3-options">${a.map(v=>`<button type="button" data-a3item="${v}">${v}</button>`).join("")}</div></div>`).join("");
  document.getElementById("a3Shade").classList.add("open");document.getElementById("a3Popup").classList.add("open");document.getElementById("a3Popup").setAttribute("aria-hidden","false");
+ setPageLock(true);
  if(typeof render==="function")render();
 }
 
@@ -1010,6 +1034,7 @@ function a3Close(){
  document.getElementById("a3Shade").classList.remove("open");
  document.getElementById("a3Popup").classList.remove("open");
  document.getElementById("a3Popup").setAttribute("aria-hidden","true");
+ if(!document.getElementById("drawer")?.classList.contains("open")) setPageLock(false);
 }
 
 function a3Select(label){
@@ -1101,11 +1126,17 @@ function a3Install(){
 }
 document.addEventListener("DOMContentLoaded",a3Install);
 
-/* v37 VIEW MODE */
-let VIEW_MODE=localStorage.getItem("guidelineViewMode")||"atlas";
+/* VIEW MODE */
+function safeStoreGet(key,fallback){
+ try{return localStorage.getItem(key)||fallback}catch(_){return fallback}
+}
+function safeStoreSet(key,value){
+ try{localStorage.setItem(key,value)}catch(_){}
+}
+let VIEW_MODE=safeStoreGet("guidelineViewMode","atlas");
 function setViewMode(mode){
  VIEW_MODE=(mode==="library")?"library":"atlas";
- localStorage.setItem("guidelineViewMode",VIEW_MODE);
+ safeStoreSet("guidelineViewMode",VIEW_MODE);
  document.body.classList.toggle("library-only",VIEW_MODE==="library");
  document.getElementById("modeAtlasBtn")?.classList.toggle("active",VIEW_MODE==="atlas");
  document.getElementById("modeLibraryBtn")?.classList.toggle("active",VIEW_MODE==="library");
@@ -1131,11 +1162,11 @@ function enhanceLibraryRows(){
    card.appendChild(meta);
  });
 }
-const _renderV37=render;
-render=function(){const v=_renderV37.apply(this,arguments);window.setTimeout(enhanceLibraryRows,0);return v;};
+const _baseRender=render;
+render=function(){const v=_baseRender.apply(this,arguments);window.setTimeout(enhanceLibraryRows,0);return v;};
 document.addEventListener("DOMContentLoaded",()=>setViewMode(VIEW_MODE));
 
-/* v38 CSV EXPORT — exports the currently rendered/filtered catalogue */
+/* CSV EXPORT — exports the currently rendered/filtered catalogue */
 function csvCell(v){
  const x=(v===null||v===undefined)?"":String(v);
  return `"${x.replace(/"/g,'""')}"`;
@@ -1175,137 +1206,4 @@ function exportVisibleCSV(){
  <div class="a3-pophead"><div><small>ANATOMICAL INDEX</small><h3 id="a3Title">部位を選択</h3></div><button type="button" id="a3Close">×</button></div>
  <div id="a3Body"></div>
 </section>
-
-
-
-
-
-
-
-<script id="v54-background-guard">
-(()=> {
- const keepBackground=()=>{
-   const p=document.querySelector('#atlas .atlasPaper');
-   if(!p)return;
-   p.style.setProperty('transform','none','important');
- };
- keepBackground();
- window.addEventListener('resize',keepBackground,{passive:true});
- const atlas=document.getElementById('atlas');
- if(atlas){
-   new MutationObserver(keepBackground).observe(atlas,{attributes:true,subtree:true,attributeFilter:['class','style']});
- }
-})();
-</script>
-
-
-<script id="v55-navigation-guard">
-(()=> {
- const atlas=document.getElementById('atlas');
- const anatomy=atlas&&atlas.querySelector('.anatomy');
- const home=atlas&&atlas.querySelector('.home');
-
- /* Critical fix: switching from one body region to another must not compound
-    transforms or navigate in the already-zoomed coordinate system. */
- if(atlas){
-   atlas.addEventListener('click',e=>{
-     const zone=e.target.closest('[data-a3zone]');
-     if(!zone)return;
-     if(anatomy){
-       anatomy.style.setProperty('transform','none','important');
-       anatomy.style.setProperty('transform-origin','0 0','important');
-     }
-   },true);
- }
-
- const back=document.getElementById('v55DetailBack');
- if(!back)return;
-
- const visible=el=>{
-   if(!el)return false;
-   const cs=getComputedStyle(el);
-   return cs.display!=='none'&&cs.visibility!=='hidden'&&parseFloat(cs.opacity||1)>0;
- };
- const findDetail=()=>[
-   document.querySelector('.detail.open'),
-   document.querySelector('.detail.is-open'),
-   document.querySelector('.detail[aria-hidden="false"]'),
-   document.querySelector('.modal.open'),
-   document.querySelector('.modal.show'),
-   document.querySelector('[role="dialog"]:not([aria-hidden="true"])')
- ].find(visible);
-
- const sync=()=>document.body.classList.toggle('v55-detail-open',!!findDetail());
- new MutationObserver(()=>requestAnimationFrame(sync)).observe(document.body,{
-   subtree:true,attributes:true,childList:true,attributeFilter:['class','style','aria-hidden']
- });
- sync();
-
- back.onclick=()=>{
-   const d=findDetail();
-   if(d){
-     const native=d.querySelector('.close,.back,.detailBack,[data-close],[aria-label*="戻"],[aria-label*="閉"]');
-     if(native){native.click();return;}
-   }
-   history.back();
- };
-})();
-</script>
-
-
-<script id="v56-specialty-ledger-js">
-(()=> {
- const palette={
-  '整形':'#7b6652','骨':'#7b6652','リウマチ':'#7b6652',
-  '循環':'#8a5d57','心':'#8a5d57',
-  '消化':'#8b744c','肝':'#8b744c','胆':'#8b744c','膵':'#8b744c',
-  '呼吸':'#65777a','肺':'#65777a',
-  '脳':'#6d687d','神経':'#6d687d',
-  '小児':'#8a766f','新生児':'#8a766f',
-  '産婦':'#8a6874','婦人':'#8a6874',
-  '泌尿':'#63727d','腎':'#63727d',
-  '皮膚':'#7d6f5d',
-  '眼':'#66756a','耳鼻':'#66756a',
-  '歯':'#766b62','口腔':'#766b62',
-  '精神':'#706b78',
-  '救急':'#765b50','集中治療':'#765b50',
-  'がん':'#775b68','腫瘍':'#775b68'
- };
- const rows=()=>[...document.querySelectorAll('.ledger-row,.catalog-card,.guideline-card')];
- const paint=()=>{
-   rows().forEach(el=>{
-     const t=(el.dataset.specialty||el.textContent||'');
-     let c='';
-     for(const [k,v] of Object.entries(palette)){if(t.includes(k)){c=v;break;}}
-     if(c)el.style.setProperty('--v56-specialty',c);
-   });
- };
- paint();
- new MutationObserver(()=>requestAnimationFrame(paint)).observe(document.body,{subtree:true,childList:true});
-})();
-</script>
-
-
-<script id="v59-code-runtime-removal">
-(()=> {
- const codeRe=/^GL-JP-\d+$/i;
- const clean=()=>{
-   if(!document.body.classList.contains('library-only')) return;
-   const root=document.querySelector('.catalogue,.catalog,.library,.results,#results,#catalogue')||document;
-   root.querySelectorAll('*').forEach(el=>{
-     if(el.children.length) return;
-     const t=(el.textContent||'').trim();
-     if(codeRe.test(t)){
-       el.style.setProperty('display','none','important');
-       el.setAttribute('aria-hidden','true');
-     }
-   });
- };
- clean();
- new MutationObserver(()=>requestAnimationFrame(clean)).observe(document.body,{
-   subtree:true,childList:true,attributes:true,attributeFilter:['class']
- });
-})();
-</script>
-
 </body></html>
