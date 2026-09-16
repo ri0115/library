@@ -168,7 +168,7 @@ body.a3-debug .a3-hit{background:rgba(137,68,25,.18);outline:2px solid rgba(90,4
 body.a3-debug .a3-hit:after{content:attr(aria-label);font:700 10px sans-serif;background:#f3d69c;color:#321;padding:2px}
 
 /* only the two visual image layers zoom. hit layer NEVER transforms */
-.atlas.a3-zoom .layer{transform:translate(var(--a3x),var(--a3y)) scale(var(--a3s))!important;transition:transform .42s cubic-bezier(.2,.72,.2,1)}
+
 .a3-hitlayer{transform:none!important}
 
 /* fresh anatomy index */
@@ -212,6 +212,17 @@ body.a3-debug .a3-hit{background:rgba(140,68,24,.20)!important;outline:2px solid
 /* Only image layers move. Coordinate hit layer is fixed to rendered image bounds. */
 .atlas.a3-zoom .layer{transform-origin:0 0!important;transition:transform .45s cubic-bezier(.2,.72,.2,1)!important}
 .a3-hitlayer{transform:none!important}
+
+/* v25 canonical coordinate zoom — this is the ONLY a3 transform rule */
+.atlas.a3-zoom .layer{
+  transform-origin:0 0!important;
+  transition:transform .45s cubic-bezier(.2,.72,.2,1)!important;
+}
+
+body.a3-debug .a3-hit::after{
+ content:attr(aria-label);display:block;background:#f4d99dcc;color:#321;
+ font:700 10px sans-serif;padding:2px;white-space:nowrap
+}
 </style></head><body>
 <div class="uxbar"><div class="uxinner">
 <input id="quickSearch" placeholder="ガイドライン名・疾患・学会名を検索" oninput="syncQuickSearch(this.value)">
@@ -441,8 +452,8 @@ function a3RenderedImageRect(){
  const img=at?.querySelector(".layer img")||at?.querySelector("img");
  if(!at||!img)return null;
  const ar=at.getBoundingClientRect();
- // object-fit:cover is used by the site. Calculate the actual 1024x1536 image mapping.
- const scale=Math.max(ar.width/A3_IMG.w,ar.height/A3_IMG.h);
+ // Actual site CSS is object-fit:contain. Calculate the rendered 1024x1536 image box including letterboxing.
+ const scale=Math.min(ar.width/A3_IMG.w,ar.height/A3_IMG.h);
  const rw=A3_IMG.w*scale,rh=A3_IMG.h*scale;
  return {atlas:at,left:(ar.width-rw)/2,top:(ar.height-rh)/2,width:rw,height:rh,unit:scale};
 }
@@ -465,7 +476,10 @@ function a3ApplyZoom(key){
  // Translate after scaling so selected center lands exactly at viewport center.
  const tx=vw/2-S*px,ty=vh/2-S*py;
  g.atlas.classList.add("reveal","a3-zoom");
- g.atlas.querySelectorAll(".layer").forEach(el=>el.style.transform=`translate(${tx}px,${ty}px) scale(${S})`);
+ g.atlas.querySelectorAll(".layer").forEach(el=>{
+   el.style.setProperty("transform",`translate(${tx}px,${ty}px) scale(${S})`,"important");
+   el.style.setProperty("transform-origin","0 0","important");
+ });
 }
 function a3Open(key){
  const z=A3_ZONES[key];if(!z)return;
@@ -487,6 +501,17 @@ function a3Select(label){
  const tagEl=document.getElementById("tag");if(tagEl)tagEl.textContent=label+" — 選択中";
  a3Close();if(typeof render==="function")render();
 }
+
+function a3SelfCheck(){
+ const g=a3RenderedImageRect(),lay=document.querySelector(".a3-hitlayer");
+ if(!g||!lay)return {ok:false,reason:"missing geometry"};
+ const expectedW=A3_IMG.w*g.unit,expectedH=A3_IMG.h*g.unit;
+ const ok=Math.abs(g.width-expectedW)<.5&&Math.abs(g.height-expectedH)<.5;
+ return {ok,fit:"contain",atlas:[g.atlas.clientWidth,g.atlas.clientHeight],
+         renderedImage:[Math.round(g.left),Math.round(g.top),Math.round(g.width),Math.round(g.height)],
+         head:A3_ZONES.head.box,chest:A3_ZONES.chest.box,abdomen:A3_ZONES.abdomen.box};
+}
+window.a3SelfCheck=a3SelfCheck;
 function a3Install(){
  const at=document.querySelector(".atlas");if(!at)return;
  at.querySelectorAll(".a3-hitlayer").forEach(x=>x.remove());
