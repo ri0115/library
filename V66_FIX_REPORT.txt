@@ -1,0 +1,8 @@
+V66 BACKGROUND + TOP CONTROL LAYOUT FIX
+- Keeps parchment painted on #atlas itself.
+- Adds #atlas::before fallback layer so anatomy zoom cannot visually erase it.
+- Foreground HOME/COLOR anatomy layers stay transparent.
+- Re-asserts atlas background if zoom classes/styles change.
+- Desktop mode switch moved to fixed top-right and page gets top spacing.
+- Mobile mode switch becomes a sticky full-width 3-column bar.
+- v65 safe-boot logic and 630-record database unchanged.
