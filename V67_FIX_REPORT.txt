@@ -1,0 +1,31 @@
+V67 ZOOM ROUTING / BACKGROUND FIX
+
+Confirmed causes
+1. 'Background disappears':
+   The ornate classical scene is inside home_atlas_v65.png itself.
+   parchment_fixed_v65.jpg is only plain parchment.
+   Previous zoom logic set HOME opacity to 0, so the ornate visual background necessarily disappeared.
+2. 'Next region follows background coordinates':
+   The only hit layer used A3_HOME_HITS (HOME figure coordinates).
+   It did not move with the transformed COLOR anatomy.
+   Therefore a second region selection could not correspond to the anatomy visible after zoom.
+
+Fix
+- During zoom HOME artwork remains fixed at 30% opacity as the visual backdrop.
+- A soft parchment veil reduces the ghosted original body while preserving circles/text/skull/library artwork.
+- COLOR anatomy remains the only transformed figure.
+- Added two independent hit surfaces:
+  HOME hit layer = A3_HOME_HITS, fixed.
+  ZOOM hit layer = A3_COLOR_TARGETS, transformed with exactly the same translate/scale as COLOR anatomy.
+- During zoom HOME hits are disabled and COLOR/ZOOM hits are enabled.
+- On reset the reverse happens.
+- Removed the unnecessary pre-open anatomy transform reset; zoom transforms are absolute, not cumulative.
+
+Unchanged
+- 630 records
+- safe boot
+- simple mode
+- detailed search
+- side drawer
+- specialty colors
+- CSV

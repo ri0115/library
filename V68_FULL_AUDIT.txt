@@ -1,0 +1,80 @@
+V68 FINAL RUNTIME RECHECK
+Date: 2026-09-17
+
+Bug found during recheck:
+- In v67 the parent zoom hit-layer was disabled, but legacy CSS kept each child .a3-hit at pointer-events:auto!important.
+- Therefore both HOME and COLOR coordinate buttons could still compete for the same physical tap.
+- v68 switches the actual buttons themselves: HOME enabled/COLOR disabled initially; HOME disabled/COLOR enabled while zoomed.
+
+[DESKTOP 1440x1000]
+- app ready: PASS
+- 100 cards: PASS
+- boot error hidden: PASS
+- top controls non-overlap: PASS
+- HOME head maps: PASS
+- HOME neck maps: PASS
+- HOME chest maps: PASS
+- HOME abdomen maps: PASS
+- HOME pelvis maps: PASS
+- HOME upperL maps: PASS
+- HOME upperR maps: PASS
+- HOME lowerL maps: PASS
+- HOME lowerR maps: PASS
+- real reset restores HOME: PASS
+- backdrop reaches opacity .30: PASS
+- parchment remains: PASS
+- HOME hit disabled while zoomed: PASS
+- COLOR hit enabled while zoomed: PASS
+- COLOR neck top hit: PASS
+- COLOR neck maps: PASS
+- COLOR chest top hit: PASS
+- COLOR chest maps: PASS
+- COLOR abdomen top hit: PASS
+- COLOR abdomen maps: PASS
+- COLOR pelvis top hit: PASS
+- COLOR pelvis maps: PASS
+- simple mode: PASS
+- cards visible simple: PASS
+- GL code absent list: PASS
+- advanced search opens: PASS
+- year/access filters visible: PASS
+- detail open/back x5: PASS
+- GL code absent detail: PASS
+- runtime errors zero: PASS
+
+[MOBILE 390x844]
+- app ready: PASS
+- 100 cards: PASS
+- boot error hidden: PASS
+- top controls non-overlap: PASS
+- HOME head maps: PASS
+- HOME neck maps: PASS
+- HOME chest maps: PASS
+- HOME abdomen maps: PASS
+- HOME pelvis maps: PASS
+- real reset restores HOME: PASS
+- backdrop reaches opacity .30: PASS
+- parchment remains: PASS
+- HOME hit disabled while zoomed: PASS
+- COLOR hit enabled while zoomed: PASS
+- COLOR neck top hit: PASS
+- COLOR neck maps: PASS
+- COLOR chest top hit: PASS
+- COLOR chest maps: PASS
+- COLOR abdomen top hit: PASS
+- COLOR abdomen maps: PASS
+- COLOR pelvis top hit: PASS
+- COLOR pelvis maps: PASS
+- simple mode: PASS
+- cards visible simple: PASS
+- GL code absent list: PASS
+- advanced search opens: PASS
+- year/access filters visible: PASS
+- detail open/back x5: PASS
+- GL code absent detail: PASS
+- runtime errors zero: PASS
+
+Runtime JavaScript exceptions: 0
+Visual screenshots included:
+- V68_DESKTOP_HEAD_ZOOM.png
+- V68_MOBILE_HEAD_ZOOM.png

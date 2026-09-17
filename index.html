@@ -682,8 +682,54 @@ html:not([data-app-ready="1"]) #results:empty::before{
 }
 </style>
 
+
+<style id="v67-zoom-routing-background-fix">
+/* Background stack during zoom:
+   parchment -> fixed classical HOME artwork -> soft veil -> zoomed COLOR anatomy */
+#atlas::before{z-index:0!important}
+#atlas .home{z-index:1!important}
+#atlas::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:2;
+  pointer-events:none;
+  background:rgba(224,199,151,0);
+  transition:background .20s ease;
+}
+#atlas.a3-zoom::after{
+  background:rgba(224,199,151,.28);
+}
+#atlas .anatomy{z-index:3!important}
+
+/* Two coordinate surfaces:
+   HOME hits stay fixed to the original figure.
+   COLOR hits receive exactly the same transform as the COLOR anatomy. */
+#atlas .a3-hitlayer.home-hits{z-index:7!important}
+#atlas .a3-hitlayer.zoom-hits{
+  z-index:8!important;
+  transform-origin:0 0!important;
+}
+#atlas .a3-hitlayer.zoom-hits .a3-hit{
+  pointer-events:auto!important;
+}
+
+/* The visible title/buttons remain above all image/hit layers. */
+#atlas .tag,#atlas .catalogBtn,#atlas #backToWhole,#atlas .a3-debug-readout{
+  z-index:120!important;
+}
+</style>
+
+
+<style id="v68-hit-state-fix">
+#atlas .a3-hitlayer.home-hits .a3-hit{pointer-events:auto!important}
+#atlas .a3-hitlayer.zoom-hits .a3-hit{pointer-events:none!important}
+#atlas.a3-zoom .a3-hitlayer.home-hits .a3-hit{pointer-events:none!important}
+#atlas.a3-zoom .a3-hitlayer.zoom-hits .a3-hit{pointer-events:auto!important}
+</style>
+
 </head>
-<body data-build="v66-background-layout-fix">
+<body data-build="v68-verified-hit-state">
 <div id="bootError" hidden role="alert" style="position:fixed;left:12px;right:12px;top:12px;z-index:99999;padding:12px 14px;background:#f2d7b0;border:1px solid #7b4e2d;color:#4b2f1b;font:13px/1.5 sans-serif"></div>
 <div class="viewModeSwitch" role="group" aria-label="表示モード">
 <button type="button" id="modeAtlasBtn" class="active" onclick="setViewMode('atlas')">人体＋蔵書</button>
@@ -1095,14 +1141,28 @@ function a3PositionImageLayers(){
 }
 
 function a3PositionHitLayer(){
- const g=a3ContainRect(),lay=document.querySelector(".a3-hitlayer");
- if(!g||!lay)return;
+ const g=a3ContainRect();
+ const homeLay=document.querySelector(".a3-hitlayer.home-hits");
+ const zoomLay=document.querySelector(".a3-hitlayer.zoom-hits");
+ if(!g||!homeLay||!zoomLay)return;
  a3PositionImageLayers();
- lay.style.left=g.left+"px"; lay.style.top=g.top+"px";
- lay.style.width=g.width+"px"; lay.style.height=g.height+"px";
- lay.style.right="auto"; lay.style.bottom="auto";
- lay.querySelectorAll("[data-a3zone]").forEach(b=>{
+
+ [homeLay,zoomLay].forEach(lay=>{
+   lay.style.left=g.left+"px"; lay.style.top=g.top+"px";
+   lay.style.width=g.width+"px"; lay.style.height=g.height+"px";
+   lay.style.right="auto"; lay.style.bottom="auto";
+ });
+
+ homeLay.querySelectorAll("[data-a3zone]").forEach(b=>{
    const q=A3_HOME_HITS[b.dataset.a3zone];
+   b.style.left=(q[0]/A3_IMG.w*100)+"%";
+   b.style.top=(q[1]/A3_IMG.h*100)+"%";
+   b.style.width=((q[2]-q[0])/A3_IMG.w*100)+"%";
+   b.style.height=((q[3]-q[1])/A3_IMG.h*100)+"%";
+ });
+
+ zoomLay.querySelectorAll("[data-a3zone]").forEach(b=>{
+   const q=A3_COLOR_TARGETS[b.dataset.a3zone];
    b.style.left=(q[0]/A3_IMG.w*100)+"%";
    b.style.top=(q[1]/A3_IMG.h*100)+"%";
    b.style.width=((q[2]-q[0])/A3_IMG.w*100)+"%";
@@ -1124,7 +1184,7 @@ function a3ApplyZoom(key){
  const home=g.atlas.querySelector(".home");
  const anatomy=g.atlas.querySelector(".anatomy");
  if(home){
-   home.style.setProperty("opacity","0","important");
+   home.style.setProperty("opacity","0.30","important");
    home.style.setProperty("transform","none","important");
  }
  if(anatomy){
@@ -1132,22 +1192,27 @@ function a3ApplyZoom(key){
    anatomy.style.setProperty("transform-origin","0 0","important");
    anatomy.style.setProperty("transform",`translate(${tx}px,${ty}px) scale(${S})`,"important");
  }
+ const homeHits=g.atlas.querySelector(".a3-hitlayer.home-hits");
+ const zoomHits=g.atlas.querySelector(".a3-hitlayer.zoom-hits");
+ if(homeHits){
+   homeHits.style.pointerEvents="none";
+   homeHits.querySelectorAll(".a3-hit").forEach(b=>b.disabled=true);
+ }
+ if(zoomHits){
+   zoomHits.style.setProperty("transform-origin","0 0","important");
+   zoomHits.style.setProperty("transform",`translate(${tx}px,${ty}px) scale(${S})`,"important");
+   zoomHits.style.pointerEvents="auto";
+   zoomHits.querySelectorAll(".a3-hit").forEach(b=>b.disabled=false);
+ }
  g.atlas.classList.add("reveal","a3-zoom");g.atlas.dataset.zoomed="1";
- const hitLayer=g.atlas.querySelector(".a3-hitlayer");if(hitLayer)hitLayer.style.pointerEvents="none";
 }
 
 function a3Open(key){
  closeDetail();
- const anatomyReset=document.querySelector("#atlas .anatomy");
- if(anatomyReset){
-   anatomyReset.style.removeProperty("transform");
-   anatomyReset.style.setProperty("transform-origin","0 0","important");
- }
-
  const atlasEl=document.getElementById("atlas");if(atlasEl?.classList.contains("returning"))return;
  const m=A3_META[key];if(!m)return;
  const dbg=document.getElementById("a3DebugReadout");
- if(dbg)dbg.textContent="TAP → "+key+" / "+m.name+" | controller=v65";
+ if(dbg)dbg.textContent="TAP → "+key+" / "+m.name+" | controller=v68";
  a3ApplyZoom(key);
  area=m.area; structure=""; sub="";
  const tagEl=document.getElementById("tag");
@@ -1193,7 +1258,18 @@ function resetAtlas(){
    if(home)home.style.setProperty("opacity","1","important");
    if(anatomy)anatomy.style.setProperty("opacity","0","important");
    at.dataset.zoomed="";
-   const hitLayer=at.querySelector(".a3-hitlayer");if(hitLayer)hitLayer.style.pointerEvents="auto";
+   const homeHits=at.querySelector(".a3-hitlayer.home-hits");
+   const zoomHits=at.querySelector(".a3-hitlayer.zoom-hits");
+   if(homeHits){
+     homeHits.style.pointerEvents="auto";
+     homeHits.querySelectorAll(".a3-hit").forEach(b=>b.disabled=false);
+   }
+   if(zoomHits){
+     zoomHits.style.pointerEvents="none";
+     zoomHits.querySelectorAll(".a3-hit").forEach(b=>b.disabled=true);
+     zoomHits.style.removeProperty("transform");
+     zoomHits.style.removeProperty("transform-origin");
+   }
    a3PositionHitLayer();
    a3PositionImageLayers();
  };
@@ -1226,15 +1302,26 @@ function resetAtlas(){
 function a3Install(){
  const at=document.getElementById("atlas");if(!at)return;
  at.querySelectorAll(".a3-hitlayer").forEach(x=>x.remove());
- const lay=document.createElement("div");lay.className="a3-hitlayer";
- Object.keys(A3_HOME_HITS).forEach(k=>{
-   const b=document.createElement("button");
-   b.type="button";b.className="a3-hit";b.dataset.a3zone=k;
-   b.setAttribute("aria-label",A3_META[k].name);
-   b.onclick=e=>{e.preventDefault();e.stopPropagation();a3Open(k)};
-   lay.appendChild(b);
- });
- at.appendChild(lay);
+
+ const makeLayer=(extra,keys)=>{
+   const lay=document.createElement("div");
+   lay.className="a3-hitlayer "+extra;
+   keys.forEach(k=>{
+     const b=document.createElement("button");
+     b.type="button";b.className="a3-hit";b.dataset.a3zone=k;
+     b.setAttribute("aria-label",A3_META[k].name);
+     b.onclick=e=>{e.preventDefault();e.stopPropagation();a3Open(k)};
+     lay.appendChild(b);
+   });
+   return lay;
+ };
+
+ const homeLay=makeLayer("home-hits",Object.keys(A3_HOME_HITS));
+ const zoomLay=makeLayer("zoom-hits",Object.keys(A3_COLOR_TARGETS));
+ zoomLay.style.pointerEvents="none";
+ zoomLay.querySelectorAll(".a3-hit").forEach(b=>b.disabled=true);
+ at.appendChild(homeLay);
+ at.appendChild(zoomLay);
  a3PositionHitLayer();
  a3PositionImageLayers();
  document.getElementById("a3Shade").onclick=a3Close;
